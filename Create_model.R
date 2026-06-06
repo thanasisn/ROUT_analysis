@@ -416,7 +416,7 @@ models <- merge(models, CP, by.x = "rn", by.y = "rn" )
 #'
 #' # Create prediction for each hour within it's class
 #'
-#' Predict passes for a range of finishing time. This was posted online.
+#' Predict passes for a range of finishing time. This was posted on-line.
 #' Sun angles are computed at the actual location of each check point.
 #'
 #+ echo=F, include=PLANS, results="asis", warning=F
