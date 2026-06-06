@@ -5,6 +5,12 @@
 #' author: "Athanasios N Natsis"
 #'
 #' output:
+#'   bookdown::html_document2:
+#'     toc:              yes
+#'     number_sections:  no
+#'     fig_width:        6
+#'     fig_height:       4
+#'     keep_md:          no
 #'   bookdown::pdf_document2:
 #'     number_sections:  no
 #'     fig_caption:      no
@@ -41,7 +47,7 @@
 
 #+ echo=F, include=F, warning=F, message=F
 rm(list = (ls()[ls() != ""]))
-Script.Name <- "~/CODE/R_MISC/ROUT/Create_model_2.R"
+Script.Name <- "~/MANUSCRIPTS/ROUT_analysis/Create_model_2.R"
 Sys.setenv(TZ = "UTC")
 tic <- Sys.time()
 
@@ -79,7 +85,7 @@ suppressMessages({
   require(gtable,     quietly = TRUE, warn.conflicts = FALSE)
 })
 
-source("~/CODE/R_MISC/ROUT/DEFINITIONS.R")
+source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
 
 ## load muliptle years
 
@@ -450,7 +456,7 @@ if (PLANS) {
 
 
 
-    png(paste0("B_", paste(base_years, collapse = "-"), "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
+    png(paste0(EST_TBLS_dr, "/B_", paste(base_years, collapse = "-"), "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
         height = 25 * nrow(pp),
         width = 90 * ncol(pp))
 

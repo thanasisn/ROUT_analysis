@@ -21,6 +21,12 @@
 #'     toc_depth:        4
 #'     fig_width:        6
 #'     fig_height:       4
+#'   html_document:
+#'     toc:             true
+#'     number_sections: false
+#'     fig_width:       6
+#'     fig_height:      4
+#'     keep_md:         no
 #'
 #' header-includes:
 #'   - \usepackage{fontspec}
@@ -41,7 +47,7 @@
 
 #+ echo=F, include=F, warning=F, message=F
 rm(list = (ls()[ls() != ""]))
-Script.Name <- "~/CODE/R_MISC/ROUT/Create_model.R"
+Script.Name <- "~/MANUSCRIPTS/ROUT_analysis/Create_model.R"
 Sys.setenv(TZ = "UTC")
 tic <- Sys.time()
 
@@ -160,7 +166,7 @@ bbrakes <- 5
 #' derived from the race  GPX track and associated maps.
 #'
 #'
-#' # Classes ofmodels from the `r base_year` race results
+#' # Classes of models from the `r base_year` race results
 #'
 #' Based on the distribution of total finishing times, we assume there are `r
 #' bbrakes` distinct classes of athletes. To construct a corresponding number
@@ -442,7 +448,8 @@ if (PLANS) {
 
 
     png(paste0(EST_TBLS_dr, "/B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
-        height = 25 * nrow(pp), width = 90 * ncol(pp))
+        height = 25 * nrow(pp),
+        width  = 90 * ncol(pp))
 
     # Create a copy of pp for display with visual indicators
     pp_display <- pp
