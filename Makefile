@@ -5,8 +5,9 @@ SHELL = /bin/bash
 .DEFAULT_GOAL := render
 
 all:       clean_all pdf
-render:    pdf 
-pdf:       p1 
+render:    pdf html
+pdf:       p1  
+html:      h1  
 clean_all: clean_cache clean_pdfs
 
 
@@ -27,6 +28,26 @@ $(PDF): $(RMD)
 
 
 h1: $(HTML) Makefile
+$(HTML): $(RMD)
+	@mkdir -p $(OUTDIR)
+	@echo "Building: $@"
+	@echo "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::html_document2', output_file='$@', output_dir='$(OUTDIR)')"
+	@Rscript -e "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::html_document2', output_file='$@', output_dir='$(OUTDIR)')"
+
+
+TARGET := Create_model_2
+RMD    := $(TARGET).R
+PDF    := $(TARGET).pdf
+HTML   := $(TARGET).html
+
+p2: $(PDF) Makefile
+$(PDF): $(RMD)
+	@mkdir -p $(OUTDIR)
+	@echo "Building: $@"
+	@Rscript -e "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::pdf_document2', output_file='$@', output_dir='$(OUTDIR)')"
+
+
+h2: $(HTML) Makefile
 $(HTML): $(RMD)
 	@mkdir -p $(OUTDIR)
 	@echo "Building: $@"

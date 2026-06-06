@@ -107,7 +107,6 @@ for (ay in base_years) {
 
 PLANS  <- TRUE
 
-cp_fl  <- "~/CODE/R_MISC/ROUT/CP_cords.ods"
 
 ## get locations
 CP <- data.table(read_ods(cp_fl))

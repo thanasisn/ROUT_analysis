@@ -1,4 +1,7 @@
 
+## Coordinates file
+cp_fl      <- "~/MANUSCRIPTS/ROUT_analysis/side_data/CP_cords.ods"
+
 ## Race start time
 START       <- as.POSIXct("2026-10-16 00:00 EEST")
 START_UTC   <- as.POSIXct(START, tz = "UTC")
