@@ -5,6 +5,12 @@
 #' author: "Athanasios N Natsis"
 #'
 #' output:
+#'   bookdown::html_document2:
+#'     toc:              yes
+#'     number_sections:  no
+#'     fig_width:        6
+#'     fig_height:       4
+#'     keep_md:          no
 #'   bookdown::pdf_document2:
 #'     number_sections:  no
 #'     fig_caption:      no
@@ -15,12 +21,6 @@
 #'     toc_depth:        4
 #'     fig_width:        6
 #'     fig_height:       4
-#'   html_document:
-#'     toc:             true
-#'     number_sections: false
-#'     fig_width:       6
-#'     fig_height:      4
-#'     keep_md:         no
 #'
 #' header-includes:
 #'   - \usepackage{fontspec}
