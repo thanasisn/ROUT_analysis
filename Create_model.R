@@ -94,7 +94,6 @@ PLANS  <- TRUE
 
 dtk_fl <- paste0("~/Documents/Running/ROUT results/ROUT_", base_year, ".ods")
 mdl_fl <- paste0("~/Documents/Running/ROUT results/ROUT_models_", base_year, ".Rds")
-cp_fl  <- "~/CODE/R_MISC/ROUT/CP_cords.ods"
 
 ## get locations
 CP <- data.table(read_ods(cp_fl))
@@ -180,6 +179,7 @@ breaks_vec <- seq(min(DT$`K-181Χαϊντού`, na.rm = TRUE),
                   max(DT$`K-181Χαϊντού`, na.rm = TRUE),
                   length.out = bbrakes + 1)
 
+
 g_histcat <- ggplot(DT, aes(x = `K-181Χαϊντού`)) +
   geom_histogram(breaks = breaks_vec,
                  fill   = "steelblue",
@@ -261,6 +261,43 @@ for (id in unique(DT$binid)) {
 }
 #+ echo=F
 
+
+## create model for each class WITH INDIVIDUAL OBSERVATIONS
+models_raw <- data.table()
+for (id in unique(DT$binid)) {
+  tmp <- DT[binid == id]
+  tmp <- remove_empty(tmp, "cols")
+
+  # Get all rows (not just means)
+  TT_list <- list()
+  for (row_idx in 1:nrow(tmp)) {
+    TT_row <- tmp[row_idx] |>
+      select(contains("K-")) |>
+      t() |>
+      as.data.table(keep.rownames = TRUE)
+
+    TT_row <- rename(.data = TT_row, Ttime = V1)
+    TT_row$km <- as.numeric(stringr::str_match(TT_row$rn, "K-(\\d+).*")[,2])
+    setorder(TT_row, km)
+
+    TT_row$lower <- tmp$lower[row_idx]
+    TT_row$upper <- tmp$upper[row_idx]
+
+    TT_row[, Dx          := diff(c(0, km))]
+    TT_row[, Dt          := diff(c(0, Ttime))]
+    TT_row[, Pace        := round(Dt / Dx, 2)]
+    TT_row[, Speed       := round(Dx / (Dt/60), 2)]
+    TT_row[, Class       := as.character(id)]
+    TT_row[, AvgPace     := round(Ttime / km, 2)]
+    TT_row[, AvgSpeed    := round(km / (Ttime/60), 2)]
+    TT_row[, observation := row_idx]
+
+    TT_list[[row_idx]] <- TT_row
+  }
+
+  models_raw <- rbind(models_raw, rbindlist(TT_list))
+}
+
 CP[, km := NULL]
 
 
@@ -268,8 +305,10 @@ CP[, km := NULL]
 #'
 #' The detailed model parameters are shown in Table \@ref(tab:tab-model-details). A comparison of the classes can be seen in the Figure \@ref(fig:models-speed-time) based on elapsed time, and on Figure \@ref(fig:models-speed-km) based on covered distance.
 #'
-#' Speeds are compared in Figure
 #+ tab-model-details, echo=F, results='asis'
+
+# TODO add sdt
+
 models |>
   select(-Dx, -Dt) |>
   mutate(
@@ -292,19 +331,45 @@ models |>
     format = ifelse(knitr::is_latex_output(), "latex", "html")
   )
 
-#+ models-speed-time, echo=F, include=T, results="asis", warning=F, fig.cap="Comparison of the speeds over time, in each split for all models"
+#+ models-speed-time, echo=F, include=T, results="asis", warning=F, fig.cap="Comparison of the speeds over time, in each split for all models, the ribbon around each line is +/- 1 σ."
 
 models[, TtimeH := Ttime / 60 ]
 
-g_bytime <- ggplot(models,
-       aes(x = TtimeH,
-           y = Speed,
-           colour = Class,
-           group  = Class)) +
+
+# Now calculate summary statistics from individual observations
+models_summary <- models_raw[, .(
+  Speed_mean = mean(Speed, na.rm = TRUE),
+  Speed_sd   = sd(  Speed, na.rm = TRUE),
+  TtimeH     = mean(Ttime/60, na.rm = TRUE)
+), by = .(Class, km)]
+
+# g_bytime <- ggplot(models_summary,
+#        aes(x      = TtimeH,
+#            y      = Speed_mean,
+#            colour = Class,
+#            group  = Class)) +
+#   labs(x = "Time (h)",
+#        y = "Speed (km/h)") +
+#   geom_point(alpha = 0.7) +
+#   geom_line(alpha = 0.7) +
+#   geom_errorbar(aes(ymin = Speed_mean - Speed_sd,
+#                     ymax = Speed_mean + Speed_sd),
+#                 width = 0.1, alpha = 0.5) +
+#   theme_bw()
+
+g_bytime <- ggplot(models_summary,
+                   aes(x      = TtimeH,
+                       y      = Speed_mean,
+                       colour = Class,
+                       fill   = Class,
+                       group  = Class)) +
   labs(x = "Time (h)",
        y = "Speed (km/h)") +
-  geom_point(alpha = 0.7) +
-  geom_line(alpha = 0.7) +
+  geom_ribbon(aes(ymin = Speed_mean - Speed_sd,
+                  ymax = Speed_mean + Speed_sd),
+              alpha = 0.5, colour = NA) +
+  geom_point(alpha = 0.8) +
+  geom_line(alpha = 0.8) +
   theme_bw()
 
 if (knitr::is_latex_output()) {
@@ -315,16 +380,21 @@ if (knitr::is_latex_output()) {
   print(g_bytime)
 }
 
-#+  models-speed-km, echo=F, include=T, results="asis", warning=F, fig.cap="Comparison of the speeds over distance in each split for all models"
-g_bydist <- ggplot(models,
-       aes(x = km,
-           y = Speed,
-           colour = Class,
-           group  = Class)) +
+
+#+  models-speed-km, echo=F, include=T, results="asis", warning=F, fig.cap="Comparison of the speeds over distance in each split for all models, the ribbon around each line is +/- 1 σ."
+g_bydist <- ggplot(models_summary,
+                   aes(x      = km,
+                       y      = Speed_mean,
+                       colour = Class,
+                       fill   = Class,
+                       group  = Class)) +
   labs(x = "Distance (km)",
        y = "Speed (km/h)") +
-  geom_point(alpha = 0.7) +
-  geom_line(alpha = 0.7) +
+  geom_ribbon(aes(ymin = Speed_mean - Speed_sd,
+                  ymax = Speed_mean + Speed_sd),
+              alpha = 0.5, colour = NA) +
+  geom_point(alpha  = 0.8) +
+  geom_line(alpha   = 0.8) +
   theme_bw()
 
 if (knitr::is_latex_output()) {
@@ -361,7 +431,7 @@ if (PLANS) {
     if (nrow(tmp) == 0) next
 
     cat("\\newpage", "\n\n")
-    cat("### Hours", HH, "(class", tmp[, unique(Class)], ")\n\n")
+    cat("### Prediction for", HH, "hours (class", tmp[, unique(Class)], ")\n\n")
 
     setorder(tmp, Ttime)
 

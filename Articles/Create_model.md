@@ -4,6 +4,12 @@ date:   "2026-06-06"
 author: "Athanasios N Natsis"
 
 output:
+  bookdown::html_document2:
+    toc:              yes
+    number_sections:  no
+    fig_width:        6
+    fig_height:       4
+    keep_md:          no
   bookdown::pdf_document2:
     number_sections:  no
     fig_caption:      no
@@ -67,7 +73,7 @@ All performance data were obtained directly from the race website
 derived from the race  GPX track and associated maps.
 
 
-# Classes ofmodels from the 2024 race results
+# Classes of models from the 2024 race results
 
 Based on the distribution of total finishing times, we assume there are `r
 bbrakes` distinct classes of athletes. To construct a corresponding number
@@ -130,7 +136,6 @@ for (id in unique(DT$binid)) {
 
 The detailed model parameters are shown in Table \@ref(tab:tab-model-details). A comparison of the classes can be seen in the Figure \@ref(fig:models-speed-time) based on elapsed time, and on Figure \@ref(fig:models-speed-km) based on covered distance.
 
-Speeds are compared in Figure
 
 
 \begin{longtable}[t]{llrlllrllr}
@@ -282,7 +287,7 @@ CP-22 & 42:53 & 174 & 42:20 & 46:20 & 20:39 & 2.90 & 5 & 14:47 & 4.06\\
 
 }
 
-\caption{Comparison of the speeds over time, in each split for all models}(\#fig:models-speed-time)
+\caption{Comparison of the speeds over time, in each split for all models, the ribbon around each line is +/- 1 σ.}(\#fig:models-speed-time)
 \end{figure}
 \begin{figure}[h!]
 
@@ -290,7 +295,7 @@ CP-22 & 42:53 & 174 & 42:20 & 46:20 & 20:39 & 2.90 & 5 & 14:47 & 4.06\\
 
 }
 
-\caption{Comparison of the speeds over distance in each split for all models}(\#fig:models-speed-km)
+\caption{Comparison of the speeds over distance in each split for all models, the ribbon around each line is +/- 1 σ.}(\#fig:models-speed-km)
 \end{figure}
 
 \FloatBarrier
@@ -303,7 +308,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 27 (class 1 )
+### Prediction for 27 hours (class 1 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -352,7 +357,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 28 (class 1 )
+### Prediction for 28 hours (class 1 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -401,7 +406,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 29 (class 1 )
+### Prediction for 29 hours (class 1 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -450,7 +455,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 30 (class 1 )
+### Prediction for 30 hours (class 1 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -499,7 +504,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 31 (class 2 )
+### Prediction for 31 hours (class 2 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -550,7 +555,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 32 (class 2 )
+### Prediction for 32 hours (class 2 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -601,7 +606,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 33 (class 2 )
+### Prediction for 33 hours (class 2 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -652,7 +657,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 34 (class 2 )
+### Prediction for 34 hours (class 2 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -703,7 +708,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 35 (class 3 )
+### Prediction for 35 hours (class 3 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -754,7 +759,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 36 (class 3 )
+### Prediction for 36 hours (class 3 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -805,7 +810,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 37 (class 3 )
+### Prediction for 37 hours (class 3 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -856,7 +861,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 38 (class 3 )
+### Prediction for 38 hours (class 3 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -907,7 +912,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 39 (class 4 )
+### Prediction for 39 hours (class 4 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -958,7 +963,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 40 (class 4 )
+### Prediction for 40 hours (class 4 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1009,7 +1014,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 41 (class 4 )
+### Prediction for 41 hours (class 4 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1060,7 +1065,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 42 (class 4 )
+### Prediction for 42 hours (class 4 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1111,7 +1116,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 43 (class 5 )
+### Prediction for 43 hours (class 5 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1162,7 +1167,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 44 (class 5 )
+### Prediction for 44 hours (class 5 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1213,7 +1218,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 45 (class 5 )
+### Prediction for 45 hours (class 5 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1264,7 +1269,7 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Hours 46 (class 5 )
+### Prediction for 46 hours (class 5 )
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------

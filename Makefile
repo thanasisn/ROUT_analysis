@@ -6,8 +6,8 @@ SHELL = /bin/bash
 
 all:       clean_all pdf
 render:    pdf html
-pdf:       p1  
-html:      h1  
+pdf:       p1 p2
+html:      h1 h2 
 clean_all: clean_cache clean_pdfs
 
 
