@@ -61,7 +61,7 @@ knitr::opts_chunk$set(fig.align  = "center" )
 knitr::opts_chunk$set(fig.cap    = " - empty caption - " )
 knitr::opts_chunk$set(cache      =  FALSE   )  ## !! breaks calculations
 knitr::opts_chunk$set(fig.pos    = 'h!'    )
-knitr::opts_chunk$set(tidy = TRUE,
+knitr::opts_chunk$set(tidy      = TRUE,
                       tidy.opts = list(
                         indent       = 4,
                         blank        = FALSE,
@@ -73,16 +73,17 @@ knitr::opts_chunk$set(tidy = TRUE,
 ## __  Set environment ---------------------------------------------------------
 suppressMessages({
   library(data.table, quietly = TRUE, warn.conflicts = FALSE)
-  library(janitor,    quietly = TRUE, warn.conflicts = FALSE)
   library(ggplot2,    quietly = TRUE, warn.conflicts = FALSE)
+  library(janitor,    quietly = TRUE, warn.conflicts = FALSE)
   library(pander,     quietly = TRUE, warn.conflicts = FALSE)
   require(dplyr,      quietly = TRUE, warn.conflicts = FALSE)
-  require(readODS,    quietly = TRUE, warn.conflicts = FALSE)
-  require(plotly,     quietly = TRUE, warn.conflicts = FALSE)
-  require(reticulate, quietly = TRUE, warn.conflicts = FALSE)
   require(grid,       quietly = TRUE, warn.conflicts = FALSE)
   require(gridExtra,  quietly = TRUE, warn.conflicts = FALSE)
   require(gtable,     quietly = TRUE, warn.conflicts = FALSE)
+  require(plotly,     quietly = TRUE, warn.conflicts = FALSE)
+  require(readODS,    quietly = TRUE, warn.conflicts = FALSE)
+  require(reticulate, quietly = TRUE, warn.conflicts = FALSE)
+  require(tidyr,      quietly = TRUE, warn.conflicts = FALSE)
 })
 
 source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
@@ -232,6 +233,33 @@ for (id in unique(DT$binid)) {
   tmp <- DT[binid == id]
   tmp <- remove_empty(tmp, "cols")
 
+  ## get time stats for all
+  times <- tmp |>
+    summarise(
+      across(
+        contains("K-"),
+        list(
+          mean   = ~mean(  .x, na.rm = TRUE),
+          median = ~median(.x, na.rm = TRUE),
+          min    = ~min(   .x, na.rm = TRUE),
+          max    = ~max(   .x, na.rm = TRUE),
+          sd     = ~sd(    .x, na.rm = TRUE),
+          N      = ~sum(!is.na(.x))
+        )
+      )
+    ) |>
+    pivot_longer(
+      everything(),
+      names_prefix = "time_",
+      names_to = c("name", ".value"),
+      names_sep = "_"
+    ) |>
+    data.table()
+
+  times$km <- as.numeric(stringr::str_match(times$name, "K-(\\d+).*")[,2])
+  setorder(times, km)
+
+
   ## get representative data as the mean of each group
   TT <- tmp |>
     select(contains("K-")) |>
@@ -240,8 +268,10 @@ for (id in unique(DT$binid)) {
   TT <- data.table(TT, keep.rownames = T)
   TT <- rename(.data = TT, Ttime = V1)
 
-  TT$km <- as.numeric(stringr::str_match(TT$rn, "K-(\\d+).*")[,2])
-  setorder(TT, km)
+  ## get distance from CP name
+  TT$km    <- as.numeric(stringr::str_match(TT$rn, "K-(\\d+).*")[,2])
+
+  setorder(TT,    km)
 
   TT$lower <- unique(tmp$lower)
   TT$upper <- unique(tmp$upper)
