@@ -119,7 +119,8 @@ DT[, `K-0CP-0` := 0]
 ##  Compute Astropy data  ------------------------------------------------------
 py_require("astropy")
 py_require("ephem")
-source_python("~/BBand_LAP/parameters/sun/sun_vector_astropy_p3.py")
+source_python("./sun_vector_astropy_p3.py")
+source_python("~/MANUSCRIPTS/ROUT_analysis/sun_vector_astropy_p3.py")
 source_python("~/BBand_LAP/parameters/sun/moon_vector_ephem.py")
 
 moon_elevation <- function(date, lat = lat, lon = lon, height = alt) {
