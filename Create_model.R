@@ -119,9 +119,10 @@ DT[, `K-0CP-0` := 0]
 ##  Compute Astropy data  ------------------------------------------------------
 py_require("astropy")
 py_require("ephem")
-source_python("./sun_vector_astropy_p3.py")
 source_python("~/MANUSCRIPTS/ROUT_analysis/sun_vector_astropy_p3.py")
-source_python("~/BBand_LAP/parameters/sun/moon_vector_ephem.py")
+source_python("~/MANUSCRIPTS/ROUT_analysis/moon_vector_ephem.py")
+
+source_python("~/CODE/data_streams/helpers/fn_get_open_meteo_forecasts.py")
 
 moon_elevation <- function(date, lat = lat, lon = lon, height = alt) {
   res <- moon_sky_parameters(date, lat = lat, lon = lon, height = height)
@@ -133,10 +134,58 @@ moon_phase <- function(date, lat = lat, lon = lon, height = alt) {
   return(res$moon$phase)
 }
 
-# ## Call pythons Astropy for sun distance calculation
-# sunR_astropy <- function(date) {
-#   cbind(t(sun_vector(date, lat = lat, lon = lon, height = alt)), date)
-# }
+
+
+if (file.exists(cp_wth_fl) && (Sys.time() - file.mtime(cp_wth_fl)) < 12 * 3600) {
+  cat("Using cached weather data\n")
+  weather_gather <- readRDS(cp_wth_fl)
+} else {
+  cat("Getting new weather data\n")
+
+
+
+  ## Get weather
+  weather_gather <- data.table()
+  for (i in 1:nrow(CP)) {
+
+    forcasts <- get_open_meteo_forecasts(CP[i]$lat, CP[i]$lon)
+
+    clean_weather_df <- function(df) {
+      df %>%
+        # Convert to tibble
+        as_tibble() %>%
+        # Unnest list columns
+        mutate(across(where(is.list), ~{
+          if (all(lengths(.) == 1)) {
+            unlist(.)
+          } else {
+            map_chr(., paste, collapse = ", ")
+          }
+        })) %>%
+        # Fix column types
+        transmute(
+          Model     = as.character(model),
+          Variable  = as.character(variable),
+          Value     = as.numeric(value),
+          Latitude  = as.numeric(latitude),
+          Longitude = as.numeric(longitude),
+          Timezone  = stringr::str_remove_all(timezone, "b'|'"),
+          DateLoc   = ymd_hms(date) %>% force_tz(tz = first(stringr::str_remove_all(timezone, "b'|'")))
+        )
+    }
+
+    hourly   <- forcasts$hourly %>%
+      clean_weather_df() |>
+      filter(Model == "best_match")
+
+    tmp <- cbind(hourly, CP[i], parsed = Sys.time())
+
+    weather_gather <- rbind(weather_gather, tmp)
+    Sys.sleep(20)
+  }
+}
+
+
 
 ## set gender
 DT <- DT |>  mutate(Gender = if_else(grepl("M",Κατ.), "Male", "Female"))

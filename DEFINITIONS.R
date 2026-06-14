@@ -1,6 +1,7 @@
 
 ## Coordinates file
 cp_fl      <- "~/MANUSCRIPTS/ROUT_analysis/side_data/CP_cords.ods"
+cp_wth_fl  <- "~/MANUSCRIPTS/ROUT_analysis/side_data/CP_cords_weather.Rds"
 
 ## Race start time
 START       <- as.POSIXct("2026-10-16 00:00 EEST")

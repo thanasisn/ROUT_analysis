@@ -16,9 +16,9 @@ import sys
 
 # load parameters from file
 sys.path.append('/home/athan/Aerosols/source_Python')
-from param_location import Thessaloniki
+# from param_location import Thessaloniki
 # set the default location to be used
-Location = Thessaloniki
+# Location = Thessaloniki
 
 # load astropy
 from astropy             import units as u
@@ -38,12 +38,12 @@ except:
 
 
 def sun_vector(date,
-               lat         = Location.latitude,
-               lon         = Location.longitude,
-               height      = Location.elevation,
+               lat         = 40.64,
+               lon         = 22.93,
+               height      = 30,
                pressure    = 1.013,
-               temperature = Location.month_temp,
-               rel_humid   = Location.month_humi):
+               temperature = 20,
+               rel_humid   = 50):
     """Sun_vector function
 
     Calculates sun vector (azimuth, elevation, distance) relevant to a
@@ -131,12 +131,12 @@ def sun_vector(date,
 
 
 def sun_vector_2(date,
-               lat         = Location.latitude,
-               lon         = Location.longitude,
-               height      = Location.elevation,
+               lat         = 40.64,
+               lon         = 22.93,
+               height      = 30,
                pressure    = 1.013,
-               temperature = Location.month_temp,
-               rel_humid   = Location.month_humi):
+               temperature = 20,
+               rel_humid   = 60):
     """Sun_vector function
 
     Calculates sun vector (azimuth, elevation, distance) relevant to a
