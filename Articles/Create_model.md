@@ -26,7 +26,7 @@ output:
     fig_width:       6
     fig_height:      4
     keep_md:         no
-
+always_allow_html: true
 header-includes:
   - \usepackage{fontspec}
   - \usepackage{xunicode}
@@ -46,17 +46,8 @@ header-includes:
 
 
 
-```
-## Astropy updated IERS tables from net
-```
 
-```
-## Installing: openmeteo-sdk
-```
 
-```
-## Using cached weather data
-```
 
 \FloatBarrier
 
@@ -69,7 +60,8 @@ header-includes:
 This document provides a statistical estimation of checkpoint passage times
 based on a given total race time. These calculations are intended to help
 runners plan their race strategy. Additionally, we include information about
-sun and moon positions to assist with overall race planning and strategy, and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
+sun and moon positions to assist with overall race planning and strategy,
+and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
 
 
 
@@ -80,10 +72,10 @@ sun and moon positions to assist with overall race planning and strategy, and we
 
 All performance data were obtained directly from the race website
 (www.rout.gr).  The location of each checkpoint along the race route was
-derived from the race  GPX track and associated maps.
+derived from the race GPX track and associated maps.
 
 
-# Classes of models from the 2024 race results
+# Classes of performance models from the 2024 race results
 
 Based on the distribution of total finishing times, we assume there are `r
 bbrakes` distinct classes of athletes. To construct a corresponding number
@@ -95,20 +87,21 @@ corresponding to its bin is used.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-4-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-6-1} 
 
 }
 
-\caption{Distribution of finishing time in minutes for the 5 classes}(\#fig:unnamed-chunk-4)
+\caption{Distribution of finishing time in minutes for the 5 classes}(\#fig:unnamed-chunk-6)
 \end{figure}
 
 \FloatBarrier
 
 For each class and for each segment between consecutive checkpoints, we
-calculated the corresponding mean pace (minutes per kilometer) and nean speed
-(kilometers per hour). We also computed the average pace and average speed
-from the start of the race to each checkpoint. The actual source code is
-displayed below.
+calculated the corresponding mean pace (minutes per kilometer) and mean
+speed (kilometers per hour), along with other statical measures. For each
+class, these values will be scaled to obtain the corresponding passes from
+each CP.  We also computed the average pace and speed from the start of the
+race to each checkpoint.  The actual source code is displayed below.
 
 
 
@@ -137,7 +130,7 @@ for (id in unique(DT$binid)) {
         ) |>
         data.table()
     times$km <- as.numeric(
-        stringr::str_match(times$name, "K-(\\d+).*")[,
+        str_match(times$name, "K-(\\d+).*")[,
             2]
     )
     setorder(times, km)
@@ -148,7 +141,7 @@ for (id in unique(DT$binid)) {
     TT <- data.table(TT, keep.rownames = T)
     TT <- rename(.data = TT, Ttime = V1)
     TT$km <- as.numeric(
-        stringr::str_match(TT$rn, "K-(\\d+).*")[,
+        str_match(TT$rn, "K-(\\d+).*")[,
             2]
     )
     setorder(TT, km)
@@ -168,7 +161,10 @@ for (id in unique(DT$binid)) {
 
 \FloatBarrier
 
-The detailed model parameters are shown in Table \@ref(tab:tab-model-details). A comparison of the classes can be seen in the Figure \@ref(fig:models-speed-time) based on elapsed time, and on Figure \@ref(fig:models-speed-km) based on covered distance.
+The detailed model parameters are shown in Table
+\@ref(tab:tab-model-details). A comparison of the classes can be seen in the
+Figure \@ref(fig:models-speed-time) based on elapsed time, and on Figure
+\@ref(fig:models-speed-km) based on covered distance.
 
 
 
@@ -1386,222 +1382,205 @@ finishing time is equal.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-11-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-1} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-11)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13)
 \end{figure}
 
 
 ## Departures by CP
 
-Per cent difference from the modelled time for all classes, by each check point.
+We calculated the departure in per cent of each athlete actual CP pass time from the estimated, based the class he belongs based on actual finishing time.
 
 
-\newpage 
 
-####  K-20CP-3 
+#### Departures % from K-20CP-3 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-1} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-1)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-1)
 \end{figure}
-\newpage 
 
-####  K-29CP-4 
+#### Departures % from K-29CP-4 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-2} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-2} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-2)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-2)
 \end{figure}
-\newpage 
 
-####  K-42CP-5 
+#### Departures % from K-42CP-5 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-3} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-3} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-3)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-3)
 \end{figure}
-\newpage 
 
-####  K-57CP-6 
+#### Departures % from K-57CP-6 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-4} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-4} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-4)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-4)
 \end{figure}
-\newpage 
 
-####  K-62CP-7 
+#### Departures % from K-62CP-7 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-5} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-5} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-5)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-5)
 \end{figure}
-\newpage 
 
-####  K-85CP-8 
+#### Departures % from K-85CP-8 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-6} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-6} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-6)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-6)
 \end{figure}
-\newpage 
 
-####  K-91CP-9 
+#### Departures % from K-91CP-9 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-7} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-7} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-7)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-7)
 \end{figure}
-\newpage 
 
-####  K-101CP-10 
+#### Departures % from K-101CP-10 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-8} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-8} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-8)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-8)
 \end{figure}
-\newpage 
 
-####  K-114CP-11 
+#### Departures % from K-114CP-11 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-9} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-9} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-9)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-9)
 \end{figure}
-\newpage 
 
-####  K-123CP-13 
+#### Departures % from K-123CP-13 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-10} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-10} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-10)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-10)
 \end{figure}
-\newpage 
 
-####  K-132CP-14 
+#### Departures % from K-132CP-14 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-11} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-11} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-11)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-11)
 \end{figure}
-\newpage 
 
-####  K-138CP-15 
+#### Departures % from K-138CP-15 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-12} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-12} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-12)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-12)
 \end{figure}
-\newpage 
 
-####  K-148CP-17 
+#### Departures % from K-148CP-17 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-13} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-13} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-13)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-13)
 \end{figure}
-\newpage 
 
-####  K-152CP-18 
+#### Departures % from K-152CP-18 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-14} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-14} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-14)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-14)
 \end{figure}
-\newpage 
 
-####  K-171CP-21 
+#### Departures % from K-171CP-21 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-15} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-15} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-15)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-15)
 \end{figure}
-\newpage 
 
-####  K-174CP-22 
+#### Departures % from K-174CP-22 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-16} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-16} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-16)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-16)
 \end{figure}
-\newpage 
 
-####  K-161CP-19 
+#### Departures % from K-161CP-19 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-17} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-17} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-12-17)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-17)
 \end{figure}
 
 
@@ -1616,11 +1595,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-1} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-13-1)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-1)
 \end{figure}
 \newpage 
 
@@ -1628,11 +1607,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-2} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-2} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-13-2)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-2)
 \end{figure}
 \newpage 
 
@@ -1640,11 +1619,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-3} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-3} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-13-3)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-3)
 \end{figure}
 \newpage 
 
@@ -1652,11 +1631,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-4} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-4} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-13-4)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-4)
 \end{figure}
 \newpage 
 
@@ -1664,11 +1643,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-5} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-5} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-13-5)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-5)
 \end{figure}
 
 
@@ -1691,11 +1670,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-1} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-1)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-1)
 \end{figure}
  
  
@@ -1711,11 +1690,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-2} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-2} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-2)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-2)
 \end{figure}
  
  
@@ -1731,11 +1710,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-3} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-3} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-3)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-3)
 \end{figure}
  
  
@@ -1751,11 +1730,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-4} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-4} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-4)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-4)
 \end{figure}
  
  
@@ -1771,11 +1750,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-5} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-5} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-5)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-5)
 \end{figure}
  
  
@@ -1791,11 +1770,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-6} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-6} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-6)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-6)
 \end{figure}
  
  
@@ -1811,11 +1790,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-7} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-7} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-7)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-7)
 \end{figure}
  
  
@@ -1831,11 +1810,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-8} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-8} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-8)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-8)
 \end{figure}
  
  
@@ -1851,11 +1830,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-9} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-9} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-9)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-9)
 \end{figure}
  
  
@@ -1871,11 +1850,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-10} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-10} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-10)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-10)
 \end{figure}
  
  
@@ -1891,11 +1870,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-11} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-11} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-11)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-11)
 \end{figure}
  
  
@@ -1911,11 +1890,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-12} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-12} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-12)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-12)
 \end{figure}
  
  
@@ -1931,11 +1910,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-13} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-13} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-13)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-13)
 \end{figure}
  
  
@@ -1951,11 +1930,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-14} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-14} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-14)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-14)
 \end{figure}
  
  
@@ -1971,11 +1950,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-15} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-15} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-15)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-15)
 \end{figure}
  
  
@@ -1991,11 +1970,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-16} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-16} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-16)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-16)
 \end{figure}
  
  
@@ -2011,11 +1990,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-17} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-17} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-17)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-17)
 \end{figure}
  
  
@@ -2031,11 +2010,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-18} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-18} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-18)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-18)
 \end{figure}
  
  
@@ -2051,11 +2030,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-19} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-19} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-19)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-19)
 \end{figure}
  
  
@@ -2071,11 +2050,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-20} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-20} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-20)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-20)
 \end{figure}
  
  
@@ -2091,11 +2070,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-21} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-21} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-21)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-21)
 \end{figure}
  
  
@@ -2111,11 +2090,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-22} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-22} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-22)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-22)
 \end{figure}
  
  
@@ -2131,11 +2110,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-23} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-23} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-23)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-23)
 \end{figure}
  
  
@@ -2151,11 +2130,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-24} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-24} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-24)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-24)
 \end{figure}
  
  
@@ -2171,11 +2150,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-25} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-25} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-25)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-25)
 \end{figure}
  
  
@@ -2191,11 +2170,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-26} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-26} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-26)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-26)
 \end{figure}
  
  
@@ -2211,11 +2190,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-27} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-27} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-27)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-27)
 \end{figure}
  
  
@@ -2231,11 +2210,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-28} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-28} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-28)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-28)
 \end{figure}
  
  
@@ -2251,11 +2230,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-29} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-29} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-29)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-29)
 \end{figure}
  
  
@@ -2271,11 +2250,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-30} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-30} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-30)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-30)
 \end{figure}
  
  
@@ -2291,11 +2270,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-31} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-31} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-31)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-31)
 \end{figure}
  
  
@@ -2311,11 +2290,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-32} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-32} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-32)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-32)
 \end{figure}
  
  
@@ -2331,11 +2310,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-33} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-33} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-33)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-33)
 \end{figure}
  
  
@@ -2351,11 +2330,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-34} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-34} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-34)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-34)
 \end{figure}
  
  
@@ -2371,11 +2350,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-35} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-35} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-35)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-35)
 \end{figure}
  
  
@@ -2391,11 +2370,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-36} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-36} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-36)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-36)
 \end{figure}
  
  
@@ -2411,11 +2390,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-37} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-37} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-37)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-37)
 \end{figure}
  
  
@@ -2431,11 +2410,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-38} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-38} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-38)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-38)
 \end{figure}
  
  
@@ -2451,11 +2430,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-39} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-39} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-39)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-39)
 \end{figure}
  
  
@@ -2471,11 +2450,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-40} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-40} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-40)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-40)
 \end{figure}
  
  
@@ -2491,11 +2470,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-41} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-41} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-41)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-41)
 \end{figure}
  
  
@@ -2511,11 +2490,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-42} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-42} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-42)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-42)
 \end{figure}
  
  
@@ -2531,11 +2510,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-43} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-43} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-43)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-43)
 \end{figure}
  
  
@@ -2551,11 +2530,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-44} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-44} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-44)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-44)
 \end{figure}
  
  
@@ -2571,11 +2550,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-45} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-45} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-45)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-45)
 \end{figure}
  
  
@@ -2591,11 +2570,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-46} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-46} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-46)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-46)
 \end{figure}
  
  
@@ -2611,11 +2590,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-47} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-47} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-47)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-47)
 \end{figure}
  
  
@@ -2631,11 +2610,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-48} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-48} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-48)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-48)
 \end{figure}
  
  
@@ -2651,11 +2630,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-49} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-49} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-49)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-49)
 \end{figure}
  
  
@@ -2671,11 +2650,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-50} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-50} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-50)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-50)
 \end{figure}
  
  
@@ -2691,11 +2670,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-51} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-51} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-51)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-51)
 \end{figure}
  
  
@@ -2711,11 +2690,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-52} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-52} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-52)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-52)
 \end{figure}
  
  
@@ -2731,11 +2710,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-53} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-53} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-53)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-53)
 \end{figure}
  
  
@@ -2751,11 +2730,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-54} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-54} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-54)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-54)
 \end{figure}
  
  
@@ -2771,11 +2750,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-55} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-55} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-55)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-55)
 \end{figure}
  
  
@@ -2791,11 +2770,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-56} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-56} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-56)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-56)
 \end{figure}
  
  
@@ -2811,11 +2790,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-57} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-57} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-57)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-57)
 \end{figure}
  
  
@@ -2831,11 +2810,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-58} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-58} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-58)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-58)
 \end{figure}
  
  
@@ -2851,11 +2830,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-59} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-59} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-59)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-59)
 \end{figure}
  
  
@@ -2871,11 +2850,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-60} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-60} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-60)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-60)
 \end{figure}
  
  
@@ -2891,11 +2870,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-61} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-61} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-61)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-61)
 \end{figure}
  
  
@@ -2911,11 +2890,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-62} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-62} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-62)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-62)
 \end{figure}
  
  
@@ -2931,11 +2910,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-63} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-63} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-63)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-63)
 \end{figure}
  
  
@@ -2951,11 +2930,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-64} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-64} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-64)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-64)
 \end{figure}
  
  
@@ -2971,11 +2950,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-65} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-65} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-65)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-65)
 \end{figure}
  
  
@@ -2991,11 +2970,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-66} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-66} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-66)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-66)
 \end{figure}
  
  
@@ -3011,11 +2990,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-67} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-67} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-67)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-67)
 \end{figure}
  
  
@@ -3031,11 +3010,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-68} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-68} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-68)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-68)
 \end{figure}
  
  
@@ -3051,11 +3030,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-69} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-69} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-69)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-69)
 \end{figure}
  
  
@@ -3071,11 +3050,11 @@ Positive values mean that actual time is longer than expected, and the athlete s
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-70} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-70} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-70)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-16-70)
 \end{figure}
  
  

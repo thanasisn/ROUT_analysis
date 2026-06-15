@@ -19,7 +19,7 @@
 #'     latex_engine:     xelatex
 #'     toc:              yes
 #'     toc_depth:        4
-#'     fig_width:        6
+#'     fig_width:        5
 #'     fig_height:       4
 #'   html_document:
 #'     toc:             true
@@ -27,6 +27,8 @@
 #'     fig_width:       6
 #'     fig_height:      4
 #'     keep_md:         no
+#'
+#' always_allow_html: true
 #'
 #' header-includes:
 #'   - \usepackage{fontspec}
@@ -233,8 +235,8 @@ bbrakes <- 5
 #'
 #' # Classes of performance models from the `r base_year` race results
 #'
-#' Based on the distribution of total finishing times, we assume there are `r
-#' bbrakes` distinct classes of athletes. To construct a corresponding number
+#' Based on the distribution of total finishing times, we assume there are
+#' `r bbrakes` distinct classes of athletes. To construct a corresponding number
 #' of models, finishing times were partitioned into equal-sized bins. At this
 #' stage, no additional athlete characteristics (such as age, gender, or
 #' experience) are considered. For any given total time, the class
@@ -797,6 +799,7 @@ for (cp in unique(gather$rn)) {
   if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
 
   # cat("\\newpage", "\n")
+  cat("\\FloatBarrier", "\n")
   cat("\n#### Departures % from", cp, "\n\n")
 
   tmp[, Depart_pc := 100 * (Tnew - ActTime) / ActTime]
