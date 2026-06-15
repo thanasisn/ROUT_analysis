@@ -93,8 +93,10 @@ base_year <- 2024
 PLANS  <- FALSE
 PLANS  <- TRUE
 
-dtk_fl <- paste0("~/Documents/Running/ROUT results/ROUT_", base_year, ".ods")
+dtk_fl <- paste0("~/Documents/Running/ROUT results/ROUT_",        base_year, ".ods")
 mdl_fl <- paste0("~/Documents/Running/ROUT results/ROUT_models_", base_year, ".Rds")
+
+weather_old_hr <- 48
 
 ## get locations
 CP <- data.table(read_ods(cp_fl))
@@ -136,17 +138,16 @@ moon_phase <- function(date, lat = lat, lon = lon, height = alt) {
 
 
 
-if (file.exists(cp_wth_fl) && (Sys.time() - file.mtime(cp_wth_fl)) < 12 * 3600) {
+if (file.exists(cp_wth_fl) && (Sys.time() - file.mtime(cp_wth_fl)) < weather_old_hr * 3600) {
   cat("Using cached weather data\n")
   weather_gather <- readRDS(cp_wth_fl)
 } else {
   cat("Getting new weather data\n")
 
-
-
   ## Get weather
   weather_gather <- data.table()
   for (i in 1:nrow(CP)) {
+    cat(i, nrow(CP), "\n")
 
     forcasts <- get_open_meteo_forecasts(CP[i]$lat, CP[i]$lon)
 
