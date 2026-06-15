@@ -76,17 +76,24 @@ suppressMessages({
   library(ggplot2,    quietly = TRUE, warn.conflicts = FALSE)
   library(janitor,    quietly = TRUE, warn.conflicts = FALSE)
   library(lubridate,  quietly = TRUE, warn.conflicts = FALSE)
+  library(htmltools,  quietly = TRUE, warn.conflicts = FALSE)
   library(pander,     quietly = TRUE, warn.conflicts = FALSE)
   require(dplyr,      quietly = TRUE, warn.conflicts = FALSE)
   require(grid,       quietly = TRUE, warn.conflicts = FALSE)
-  require(purrr,      quietly = TRUE, warn.conflicts = FALSE)
   require(gridExtra,  quietly = TRUE, warn.conflicts = FALSE)
   require(gtable,     quietly = TRUE, warn.conflicts = FALSE)
   require(plotly,     quietly = TRUE, warn.conflicts = FALSE)
+  require(purrr,      quietly = TRUE, warn.conflicts = FALSE)
   require(readODS,    quietly = TRUE, warn.conflicts = FALSE)
   require(reticulate, quietly = TRUE, warn.conflicts = FALSE)
+  require(stringr,    quietly = TRUE, warn.conflicts = FALSE)
   require(tidyr,      quietly = TRUE, warn.conflicts = FALSE)
 })
+
+#+ include=FALSE, echo=FALSE
+## init use of ggplot and html tables in loops
+# tagList(datatable(cars))
+tagList(ggplotly(ggplot()))
 
 source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
 
@@ -121,6 +128,7 @@ DT[, `K-0CP-0` := 0]
 
 
 ##  Compute Astropy data  ------------------------------------------------------
+#+ echo=F, include=F, warning=F, message=F
 py_require("astropy")
 py_require("ephem")
 source_python("~/MANUSCRIPTS/ROUT_analysis/sun_vector_astropy_p3.py")
@@ -139,7 +147,7 @@ moon_phase <- function(date, lat = lat, lon = lon, height = alt) {
 }
 
 
-
+##  Get weather data for each CP and cache it  ------------------------------------
 if (file.exists(cp_wth_fl) && (Sys.time() - file.mtime(cp_wth_fl)) < weather_old_hr * 3600) {
   cat("Using cached weather data\n")
   weather_gather <- readRDS(cp_wth_fl)
@@ -192,7 +200,7 @@ if (file.exists(cp_wth_fl) && (Sys.time() - file.mtime(cp_wth_fl)) < weather_old
 
 
 ## set gender
-DT <- DT |>  mutate(Gender = if_else(grepl("M",Κατ.), "Male", "Female"))
+DT <- DT |>  mutate(Gender = if_else(grepl("M", Κατ.), "Male", "Female"))
 
 #' \FloatBarrier
 #'
@@ -205,7 +213,8 @@ DT <- DT |>  mutate(Gender = if_else(grepl("M",Κατ.), "Male", "Female"))
 #' This document provides a statistical estimation of checkpoint passage times
 #' based on a given total race time. These calculations are intended to help
 #' runners plan their race strategy. Additionally, we include information about
-#' sun and moon positions to assist with overall race planning and strategy, and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
+#' sun and moon positions to assist with overall race planning and strategy,
+#' and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
 #'
 #+ echo=F, include=T, results="asis", warning=F
 
@@ -219,10 +228,10 @@ bbrakes <- 5
 #'
 #' All performance data were obtained directly from the race website
 #' (www.rout.gr).  The location of each checkpoint along the race route was
-#' derived from the race  GPX track and associated maps.
+#' derived from the race GPX track and associated maps.
 #'
 #'
-#' # Classes of models from the `r base_year` race results
+#' # Classes of performance models from the `r base_year` race results
 #'
 #' Based on the distribution of total finishing times, we assume there are `r
 #' bbrakes` distinct classes of athletes. To construct a corresponding number
@@ -276,20 +285,21 @@ DT$upper <- as.numeric( sub("[^,]*,([^]]*)\\]", "\\1", DT$bin) )
 #' \FloatBarrier
 #'
 #' For each class and for each segment between consecutive checkpoints, we
-#' calculated the corresponding mean pace (minutes per kilometer) and nean speed
-#' (kilometers per hour). We also computed the average pace and average speed
-#' from the start of the race to each checkpoint. The actual source code is
-#' displayed below.
+#' calculated the corresponding mean pace (minutes per kilometer) and mean
+#' speed (kilometers per hour), along with other statical measures. For each
+#' class, these values will be scaled to obtain the corresponding passes from
+#' each CP.  We also computed the average pace and speed from the start of the
+#' race to each checkpoint.  The actual source code is displayed below.
 #'
 #+ echo=T, include=T, results="asis", warning=F
 
-## create model for each class
+##  Create model for each class
 models <- data.table()
 for (id in unique(DT$binid)) {
   tmp <- DT[binid == id]
   tmp <- remove_empty(tmp, "cols")
 
-  ## get time stats for all
+  ##  Get time stats for all
   times <- tmp |>
     summarise(
       across(
@@ -312,11 +322,10 @@ for (id in unique(DT$binid)) {
     ) |>
     data.table()
 
-  times$km <- as.numeric(stringr::str_match(times$name, "K-(\\d+).*")[,2])
+  times$km <- as.numeric(str_match(times$name, "K-(\\d+).*")[,2])
   setorder(times, km)
 
-
-  ## get representative data as the mean of each group
+  ## Get representative data as the mean of each group
   TT <- tmp |>
     select(contains("K-")) |>
     summarise_all(mean, na.rm = T) |> t()
@@ -325,9 +334,9 @@ for (id in unique(DT$binid)) {
   TT <- rename(.data = TT, Ttime = V1)
 
   ## get distance from CP name
-  TT$km    <- as.numeric(stringr::str_match(TT$rn, "K-(\\d+).*")[,2])
+  TT$km    <- as.numeric(str_match(TT$rn, "K-(\\d+).*")[,2])
 
-  setorder(TT,    km)
+  setorder(TT, km)
 
   TT$lower <- unique(tmp$lower)
   TT$upper <- unique(tmp$upper)
@@ -348,7 +357,7 @@ for (id in unique(DT$binid)) {
 #+ echo=F
 
 
-## create model for each class WITH INDIVIDUAL OBSERVATIONS
+##  Create model for each class with individual observations  ------------------
 models_raw <- data.table()
 for (id in unique(DT$binid)) {
   tmp <- DT[binid == id]
@@ -389,7 +398,10 @@ CP[, km := NULL]
 
 #' \FloatBarrier
 #'
-#' The detailed model parameters are shown in Table \@ref(tab:tab-model-details). A comparison of the classes can be seen in the Figure \@ref(fig:models-speed-time) based on elapsed time, and on Figure \@ref(fig:models-speed-km) based on covered distance.
+#' The detailed model parameters are shown in Table
+#' \@ref(tab:tab-model-details). A comparison of the classes can be seen in the
+#' Figure \@ref(fig:models-speed-time) based on elapsed time, and on Figure
+#' \@ref(fig:models-speed-km) based on covered distance.
 #'
 #+ tab-model-details, echo=F, results='asis'
 
@@ -663,102 +675,12 @@ if (PLANS) {
     dev.off()
 
 
-    # library(kableExtra)
-    #
-    # png(paste0("B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
-    #     height = 25 * nrow(pp), width = 90 * ncol(pp))
-    #
-# # Create a kable table with conditional formatting
-# pp %>%
-#   kable() %>%
-#   kable_styling(full_width = FALSE) %>%
-#   column_spec(which(names(pp) == "Sun elevation angle"),
-#               background = ifelse(pp$`Sun elevation angle` > 0, "yellow", "grey")) %>%
-#   column_spec(which(names(pp) == "Moon elevation angle"),
-#               background = ifelse(pp$`Sun elevation angle` > 0, "white",
-#                                   ifelse(pp$`Moon elevation angle` > 0, "lightgrey", "grey"))) %>%
-#   add_header_above(c(" " = ncol(pp))) %>%
-#   kableExtra::save_kable(paste0("B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"))
-#
-# dev.off()
-
-
-
-
-
-# library(gt)
-# library(webshot)
-#
-# # Create gt table with conditional formatting
-# gt_table <- pp %>%
-#   gt() %>%
-#   tab_header(title = ttl) %>%
-#   tab_style(
-#     style = list(
-#       cell_fill(color = "yellow")
-#     ),
-#     locations = cells_body(
-#       columns = `Sun elevation angle`,
-#       rows = `Sun elevation angle` > 0
-#     )
-#   ) %>%
-#   tab_style(
-#     style = list(
-#       cell_fill(color = "grey")
-#     ),
-#     locations = cells_body(
-#       columns = `Sun elevation angle`,
-#       rows = `Sun elevation angle` <= 0
-#     )
-#   ) %>%
-#   tab_style(
-#     style = list(
-#       cell_fill(color = "white")
-#     ),
-#     locations = cells_body(
-#       columns = `Moon elevation angle`,
-#       rows = `Sun elevation angle` > 0
-#     )
-#   ) %>%
-#   tab_style(
-#     style = list(
-#       cell_fill(color = "lightgrey")
-#     ),
-#     locations = cells_body(
-#       columns = `Moon elevation angle`,
-#       rows = `Sun elevation angle` <= 0 & `Moon elevation angle` > 0
-#     )
-#   ) %>%
-#   tab_style(
-#     style = list(
-#       cell_fill(color = "grey")
-#     ),
-#     locations = cells_body(
-#       columns = `Moon elevation angle`,
-#       rows = `Sun elevation angle` <= 0 & `Moon elevation angle` <= 0
-#     )
-#   )
-#
-# print(gt_table)
-
-# # Save as PNG
-# gtsave(gt_table, paste0("B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
-#        expand = 10, zoom = 2)
-
-
-
-
-
-
-
-
-
 
 
   }
 }
 
-res_fl <- paste0("~/Documents/Running/ROUT results/ROUT_", base_year+1, ".ods")
+res_fl <- paste0("~/Documents/Running/ROUT results/ROUT_", base_year + 1, ".ods")
 if (file.exists(res_fl)) {
   VALIDATE <- TRUE
   RS <- data.table(read_ods(res_fl))
@@ -867,24 +789,47 @@ if (knitr::is_latex_output()) {
 #'
 #' ## Departures by CP
 #'
-#' Per cent difference from the modelled time for all classes, by each check point.
+#' We calculated the departure in per cent of each athlete actual CP pass time from the estimated, based the class he belongs based on actual finishing time.
 #'
 #+ echo=F, include=VALIDATE, results="asis", warning=F
 for (cp in unique(gather$rn)) {
   tmp <- gather[rn == cp]
   if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
 
-  cat("\\newpage", "\n\n")
-  cat("#### ", cp, "\n\n")
+  # cat("\\newpage", "\n")
+  cat("\n#### Departures % from", cp, "\n\n")
 
-  pander(summary(tmp[, 100 * (Tnew - ActTime) / ActTime]))
+  tmp[, Depart_pc := 100 * (Tnew - ActTime) / ActTime]
 
-  hist(tmp[, 100 * (Tnew - ActTime) / ActTime],
-       breaks = 20,
-       freq = FALSE,
-       main = paste("Distribution of % difference for", cp))
+  pander(summary(tmp))
+
+
+  # hist(tmp[, Depart_pc],
+  #      breaks = 20,
+  #      freq = FALSE,
+  #      main = paste("Distribution of % difference for", cp))
+
+  g_hist_cp <- ggplot(data = tmp, aes(x = Depart_pc)) +
+    geom_histogram(aes(y = after_stat(count / sum(count)) * 100),
+                   bins = 20,
+                   fill = "lightblue",
+                   color = "black") +
+    labs(title = paste("Distribution of % difference for", cp),
+         x = "% Difference",
+         y = "Percentage (%)") +
+    theme_minimal()
+
+  if (knitr::is_latex_output()) {
+    print(g_hist_cp)
+  } else if (interactive()) {
+    ggplotly(g_hist_cp)
+  } else if (knitr::is_html_output()) {
+    htmltools::tagList(ggplotly(g_hist_cp)) %>% print()
+  } else {
+    print(g_hist_cp)
+  }
+
 }
-
 
 #'
 #' ## Departures by class
