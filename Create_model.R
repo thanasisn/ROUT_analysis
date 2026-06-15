@@ -611,9 +611,12 @@ if (PLANS) {
     pp_display <- pp
 
     # Add visual indicators to the Sun elevation angle
+    # pp_display$`Sun elevation angle` <- ifelse(pp$`Sun elevation angle` > 0,
+    #                                            paste0("🟡 ", pp$`Sun elevation angle`),
+    #                                            paste0("⚫ ", pp$`Sun elevation angle`))
     pp_display$`Sun elevation angle` <- ifelse(pp$`Sun elevation angle` > 0,
                                                paste0("🟡 ", pp$`Sun elevation angle`),
-                                               paste0("⚫ ", pp$`Sun elevation angle`))
+                                               paste0("", pp$`Sun elevation angle`))
 
     # Add visual indicators to the Moon elevation angle
     pp_display$`Moon elevation angle` <- ifelse(pp$`Moon elevation angle` > 0,
