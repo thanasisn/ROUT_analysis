@@ -1,6 +1,6 @@
 ---
 title:  "A data driven prediction, based on the finishing times of last few ROUT races"
-date:   "2026-06-06"
+date:   "2026-06-15"
 author: "Athanasios N Natsis"
 
 output:

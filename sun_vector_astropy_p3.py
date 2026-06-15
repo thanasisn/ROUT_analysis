@@ -15,10 +15,7 @@ import datetime
 import sys
 
 # load parameters from file
-sys.path.append('/home/athan/Aerosols/source_Python')
-# from param_location import Thessaloniki
-# set the default location to be used
-# Location = Thessaloniki
+# sys.path.append('/home/athan/Aerosols/source_Python')
 
 # load astropy
 from astropy             import units as u
@@ -84,13 +81,6 @@ def sun_vector(date,
         the sun elevation angle in decimal degrees from horizon
         sun distance in AU.
 
-
-#    Example:
-#        >>> sun_vector(date=datetime.datetime(2015, 12, 20, 7, 11, 56, 458476),
-#                 lat=40.63,
-#                 lon=22.95,
-#                 height=63.23)
-#        (134.6786085386902, 11.229746367471188, 0.9838363004498384)
     Note:
         Results may vary slightly due to updated tables
 
@@ -178,12 +168,6 @@ def sun_vector_2(date,
         sun distance in AU.
 
 
-#    Example:
-#        >>> sun_vector(date=datetime.datetime(2015, 12, 20, 7, 11, 56, 458476),
-#                 lat=40.63,
-#                 lon=22.95,
-#                 height=63.23)
-#        (134.6786085386902, 11.229746367471188, 0.9838363004498384)
     Note:
         Results may vary slightly due to updated tables
 

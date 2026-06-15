@@ -75,9 +75,11 @@ suppressMessages({
   library(data.table, quietly = TRUE, warn.conflicts = FALSE)
   library(ggplot2,    quietly = TRUE, warn.conflicts = FALSE)
   library(janitor,    quietly = TRUE, warn.conflicts = FALSE)
+  library(lubridate,  quietly = TRUE, warn.conflicts = FALSE)
   library(pander,     quietly = TRUE, warn.conflicts = FALSE)
   require(dplyr,      quietly = TRUE, warn.conflicts = FALSE)
   require(grid,       quietly = TRUE, warn.conflicts = FALSE)
+  require(purrr,      quietly = TRUE, warn.conflicts = FALSE)
   require(gridExtra,  quietly = TRUE, warn.conflicts = FALSE)
   require(gtable,     quietly = TRUE, warn.conflicts = FALSE)
   require(plotly,     quietly = TRUE, warn.conflicts = FALSE)
@@ -184,6 +186,7 @@ if (file.exists(cp_wth_fl) && (Sys.time() - file.mtime(cp_wth_fl)) < weather_old
     weather_gather <- rbind(weather_gather, tmp)
     Sys.sleep(20)
   }
+  saveRDS(weather_gather, cp_wth_fl)
 }
 
 
@@ -193,14 +196,16 @@ DT <- DT |>  mutate(Gender = if_else(grepl("M",Κατ.), "Male", "Female"))
 
 #' \FloatBarrier
 #'
-#' **Source code: [`github.com/thanasisn/IStillBreakStuff/blob/main/R_MISC/ROUT/Create_model.R`](https://github.com/thanasisn/IStillBreakStuff/blob/main/R_MISC/ROUT/Create_model.R)**
+#' **THIS IS A WORK IN PROGRESS**
+#'
+#' **Source code: [`github.com/thanasisn/ROUT_analysis`](https://github.com/thanasisn/ROUT_analysis)**
 #'
 #' # Abstract
 #'
 #' This document provides a statistical estimation of checkpoint passage times
 #' based on a given total race time. These calculations are intended to help
 #' runners plan their race strategy. Additionally, we include information about
-#' sun and moon positions to assist with overall race planning and strategy.
+#' sun and moon positions to assist with overall race planning and strategy, and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
 #'
 #+ echo=F, include=T, results="asis", warning=F
 
