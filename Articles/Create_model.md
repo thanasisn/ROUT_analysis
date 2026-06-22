@@ -1,6 +1,6 @@
 ---
 title:  "A data driven prediction, based on the finishing times of 2024 ROUT"
-date:   "2026-06-15"
+date:   "2026-06-22"
 author: "Athanasios N Natsis"
 
 output:
@@ -18,7 +18,7 @@ output:
     latex_engine:     xelatex
     toc:              yes
     toc_depth:        4
-    fig_width:        6
+    fig_width:        5
     fig_height:       4
   html_document:
     toc:             true
@@ -26,7 +26,9 @@ output:
     fig_width:       6
     fig_height:      4
     keep_md:         no
+
 always_allow_html: true
+
 header-includes:
   - \usepackage{fontspec}
   - \usepackage{xunicode}
@@ -77,8 +79,8 @@ derived from the race GPX track and associated maps.
 
 # Classes of performance models from the 2024 race results
 
-Based on the distribution of total finishing times, we assume there are `r
-bbrakes` distinct classes of athletes. To construct a corresponding number
+Based on the distribution of total finishing times, we assume there are
+5 distinct classes of athletes. To construct a corresponding number
 of models, finishing times were partitioned into equal-sized bins. At this
 stage, no additional athlete characteristics (such as age, gender, or
 experience) are considered. For any given total time, the class
@@ -338,8 +340,10 @@ Sun angles are computed at the actual location of each check point.
 
 \newpage 
 
-### Prediction for 27 hours (class 1 )
+### Prediction for 27 hours (class1)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -385,15 +389,19 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     27:00         01:13       10.46   5.74     8.95       6.7      2026-10-17 03:00         -18.42                 -75.97              35.7     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 28 hours (class 1 )
+### Prediction for 28 hours (class1)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
 -------------- ----- ------------ -------------- ------- ------- --------- ---------- ------------------ --------------------- ---------------------- --------------
-   K-18CP-2     18      02:05         02:05       6.93    8.66     6.93       8.66     2026-10-16 02:05         -28.54                 -76.44              26.6     
+   K-18CP-2     18      02:05         02:05       6.93    8.66     6.93       8.66     2026-10-16 02:05         -28.55                 -76.44              26.6     
 
    K-20CP-3     20      02:12         00:07        3.7    16.2      6.6       9.09     2026-10-16 02:12          -27.2                 -76.67              26.7     
 
@@ -431,13 +439,17 @@ Sun angles are computed at the actual location of each check point.
 
   K-174CP-22    174     26:43         00:32       10.77   5.57     9.21       6.51     2026-10-17 02:43         -21.65                 -75.14              35.6     
 
- K-181Χαϊντού   181     27:59         01:16       10.84   5.54     9.27       6.47     2026-10-17 03:59          -7.4                  -73.14               36      
+ K-181Χαϊντού   181     27:59         01:16       10.84   5.54     9.27       6.47     2026-10-17 03:59          -7.41                 -73.14               36      
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 29 hours (class 1 )
+### Prediction for 29 hours (class1)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -483,10 +495,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     28:53         01:18       11.19   5.36     9.58       6.27     2026-10-17 04:53          2.68                  -65.49              36.4     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 30 hours (class 1 )
+### Prediction for 30 hours (class1)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -532,10 +548,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     29:44         01:21       11.52   5.21     9.86       6.09     2026-10-17 05:44          11.62                 -56.88              36.7     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 31 hours (class 2 )
+### Prediction for 31 hours (class2)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -583,10 +603,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     30:52         01:27       12.46   4.82     10.23      5.86     2026-10-17 06:52          22.58                 -44.8               37.1     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 32 hours (class 2 )
+### Prediction for 32 hours (class2)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -634,10 +658,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     31:58         01:30       12.9    4.65     10.6       5.66     2026-10-17 07:58          31.41                 -32.96              37.5     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 33 hours (class 2 )
+### Prediction for 33 hours (class2)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -685,10 +713,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     33:00         01:33       13.32    4.5     10.94      5.48     2026-10-17 09:00          37.11                 -22.09              37.9     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 34 hours (class 2 )
+### Prediction for 34 hours (class2)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -736,10 +768,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     33:58         01:36       13.71   4.38     11.26      5.33     2026-10-17 09:58          39.32                 -12.27              38.3     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 35 hours (class 3 )
+### Prediction for 35 hours (class3)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -787,10 +823,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     34:59         01:21       11.51   5.21     11.6       5.17     2026-10-17 10:59          37.93                 -1.64               38.7     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 36 hours (class 3 )
+### Prediction for 36 hours (class3)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -838,10 +878,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     36:00         01:23       11.85   5.06     11.93      5.03     2026-10-17 12:00          33.02                  5.95               39.1     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 37 hours (class 3 )
+### Prediction for 37 hours (class3)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -889,15 +933,19 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     36:58         01:25       12.16   4.93     12.25      4.9      2026-10-17 12:58          25.88                 12.67               39.5     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 38 hours (class 3 )
+### Prediction for 38 hours (class3)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
 -------------- ----- ------------ -------------- ------- ------- --------- ---------- ------------------ --------------------- ---------------------- --------------
-   K-18CP-2     18      02:19         02:19       7.71    7.78     7.71       7.78     2026-10-16 02:19         -25.95                 -76.75              26.7     
+   K-18CP-2     18      02:19         02:19       7.71    7.78     7.71       7.78     2026-10-16 02:19         -25.96                 -76.75              26.7     
 
    K-20CP-3     20      02:28         00:10       4.76    12.61    7.42       8.09     2026-10-16 02:28         -24.21                 -76.64              26.7     
 
@@ -940,10 +988,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     37:52         01:27       12.46   4.81     12.55      4.78     2026-10-17 13:52          17.58                 17.55               39.8     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 39 hours (class 4 )
+### Prediction for 39 hours (class4)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -991,10 +1043,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     38:54         01:23       11.87   5.06     12.9       4.65     2026-10-17 14:54          7.14                  20.81               40.2     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 40 hours (class 4 )
+### Prediction for 40 hours (class4)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -1042,10 +1098,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     39:59         01:25       12.2    4.92     13.25      4.53     2026-10-17 15:59          -4.57                 21.32               40.6     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 41 hours (class 4 )
+### Prediction for 41 hours (class4)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -1093,10 +1153,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     41:00         01:28       12.51    4.8     13.59      4.41     2026-10-17 17:00         -16.09                 18.98                41      
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 42 hours (class 4 )
+### Prediction for 42 hours (class4)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -1127,7 +1191,7 @@ Sun angles are computed at the actual location of each check point.
 
   K-132CP-14    132     27:05         01:55       12.77    4.7     12.31      4.87     2026-10-17 03:05         -17.72                 -76.02              35.7     
 
-  K-138CP-15    138     29:34         02:29       24.87   2.41     12.85      4.67     2026-10-17 05:34          9.65                  -58.84              36.6     
+  K-138CP-15    138     29:34         02:29       24.87   2.41     12.85      4.67     2026-10-17 05:34          9.64                  -58.84              36.6     
 
   K-145CP-16    145     31:55         02:21       20.17   2.97     13.21      4.54     2026-10-17 07:55          30.94                 -33.65              37.5     
 
@@ -1144,10 +1208,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     41:58         01:30       12.81   4.68     13.91      4.31     2026-10-17 17:58         -27.01                 14.44               41.4     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 43 hours (class 5 )
+### Prediction for 43 hours (class5)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -1195,10 +1263,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     42:57         01:38       13.94    4.3     14.23      4.21     2026-10-17 18:57         -37.43                  8.12               41.8     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 44 hours (class 5 )
+### Prediction for 44 hours (class5)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -1246,10 +1318,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     44:00         01:40       14.28    4.2     14.58      4.11     2026-10-17 20:00         -47.56                  0.07               42.2     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 45 hours (class 5 )
+### Prediction for 45 hours (class5)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -1297,10 +1373,14 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     45:00         01:42       14.61   4.11     14.92      4.02     2026-10-17 21:00         -54.89                 -9.71               42.6     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
 \newpage 
 
-### Prediction for 46 hours (class 5 )
+### Prediction for 46 hours (class5)
 
+
+\footnotesize 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
       CP        km    Total time   Partial time   Pace    Speed   AvgPace   AvgSpeed         Date         Sun elevation angle   Moon elevation angle   Moon Phase % 
@@ -1348,6 +1428,9 @@ Sun angles are computed at the actual location of each check point.
  K-181Χαϊντού   181     45:57         01:44       14.92   4.02     15.23      3.94     2026-10-17 21:57         -58.09                 -19.25              42.9     
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+\normalsize 
+
 \FloatBarrier
 
 # Evaluate models against 2025 results.
@@ -1370,11 +1453,16 @@ finishing time is equal.
 
 
 
+\footnotesize 
+
 --------------------------------------------------------------
   Min.    1st Qu.   Median     Mean    3rd Qu.   Max.    NA's 
 -------- --------- --------- -------- --------- ------- ------
  -17.84    -2.64    -0.3686   0.1566    1.72     32.95    68  
 --------------------------------------------------------------
+
+
+\normalsize 
 
 
 ## Distribution of % difference for all CP and classes
@@ -1395,8 +1483,9 @@ finishing time is equal.
 We calculated the departure in per cent of each athlete actual CP pass time from the estimated, based the class he belongs based on actual finishing time.
 
 
+\FloatBarrier 
 
-#### Departures % from K-20CP-3 
+#### Departures % from K-101CP-10 
 
 \begin{figure}[h!]
 
@@ -1406,8 +1495,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-1)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-29CP-4 
+#### Departures % from K-114CP-11 
 
 \begin{figure}[h!]
 
@@ -1417,8 +1507,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-2)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-42CP-5 
+#### Departures % from K-123CP-13 
 
 \begin{figure}[h!]
 
@@ -1428,8 +1519,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-3)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-57CP-6 
+#### Departures % from K-132CP-14 
 
 \begin{figure}[h!]
 
@@ -1439,8 +1531,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-4)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-62CP-7 
+#### Departures % from K-138CP-15 
 
 \begin{figure}[h!]
 
@@ -1450,8 +1543,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-5)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-85CP-8 
+#### Departures % from K-148CP-17 
 
 \begin{figure}[h!]
 
@@ -1461,8 +1555,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-6)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-91CP-9 
+#### Departures % from K-152CP-18 
 
 \begin{figure}[h!]
 
@@ -1472,8 +1567,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-7)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-101CP-10 
+#### Departures % from K-161CP-19 
 
 \begin{figure}[h!]
 
@@ -1483,8 +1579,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-8)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-114CP-11 
+#### Departures % from K-171CP-21 
 
 \begin{figure}[h!]
 
@@ -1494,8 +1591,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-9)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-123CP-13 
+#### Departures % from K-174CP-22 
 
 \begin{figure}[h!]
 
@@ -1505,8 +1603,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-10)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-132CP-14 
+#### Departures % from K-20CP-3 
 
 \begin{figure}[h!]
 
@@ -1516,8 +1615,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-11)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-138CP-15 
+#### Departures % from K-29CP-4 
 
 \begin{figure}[h!]
 
@@ -1527,8 +1627,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-12)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-148CP-17 
+#### Departures % from K-42CP-5 
 
 \begin{figure}[h!]
 
@@ -1538,8 +1639,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-13)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-152CP-18 
+#### Departures % from K-57CP-6 
 
 \begin{figure}[h!]
 
@@ -1549,8 +1651,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-14)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-171CP-21 
+#### Departures % from K-62CP-7 
 
 \begin{figure}[h!]
 
@@ -1560,8 +1663,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-15)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-174CP-22 
+#### Departures % from K-85CP-8 
 
 \begin{figure}[h!]
 
@@ -1571,8 +1675,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-14-16)
 \end{figure}
+\FloatBarrier 
 
-#### Departures % from K-161CP-19 
+#### Departures % from K-91CP-9 
 
 \begin{figure}[h!]
 
@@ -1589,9 +1694,9 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 Per cent difference from the modelled time for all check point, fro each class.
 
 
-\newpage 
+\FloatBarrier 
 
-####  1 
+#### Departures % for class 1 
 
 \begin{figure}[h!]
 
@@ -1601,9 +1706,9 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-15-1)
 \end{figure}
-\newpage 
+\FloatBarrier 
 
-####  2 
+#### Departures % for class 2 
 
 \begin{figure}[h!]
 
@@ -1613,9 +1718,9 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-15-2)
 \end{figure}
-\newpage 
+\FloatBarrier 
 
-####  3 
+#### Departures % for class 3 
 
 \begin{figure}[h!]
 
@@ -1625,9 +1730,9 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-15-3)
 \end{figure}
-\newpage 
+\FloatBarrier 
 
-####  4 
+#### Departures % for class 4 
 
 \begin{figure}[h!]
 
@@ -1637,9 +1742,9 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-15-4)
 \end{figure}
-\newpage 
+\FloatBarrier 
 
-####  5 
+#### Departures % for class 5 
 
 \begin{figure}[h!]
 
@@ -1653,9 +1758,10 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 ## Departures by athlete
 
-Actual pass time minus predicted passes.
-
-Positive values mean that actual time is longer than expected, and the athlete slower than expected.
+We tested the actual passes of each athlete by prediction based on its finishing time. We computed the deviation
+of actual pass time from the prdicted (Actual pass time minus predicted passes).
+So positive values indicate that the actual time is longer than expected, and thus the athlete slower than expected,
+from the prediction. The blue line is the cumulative time differences along all prediction. While the blue line move upwards the athlete is slower than expected as the positive time is explained by taking more time than the prediction.
 
 
 \newpage 
@@ -1676,8 +1782,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-1)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1696,8 +1800,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-2)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1716,8 +1818,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-3)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1736,8 +1836,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-4)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1756,8 +1854,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-5)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1776,8 +1872,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-6)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1796,8 +1890,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-7)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1816,8 +1908,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-8)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1836,8 +1926,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-9)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1856,8 +1944,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-10)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1876,8 +1962,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-11)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1896,8 +1980,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-12)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1916,8 +1998,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-13)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1936,8 +2016,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-14)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1956,8 +2034,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-15)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1976,8 +2052,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-16)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -1996,8 +2070,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-17)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2016,8 +2088,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-18)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2036,8 +2106,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-19)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2056,8 +2124,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-20)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2076,8 +2142,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-21)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2096,8 +2160,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-22)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2116,8 +2178,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-23)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2136,8 +2196,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-24)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2156,8 +2214,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-25)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2176,8 +2232,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-26)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2196,8 +2250,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-27)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2216,8 +2268,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-28)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2236,8 +2286,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-29)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2256,8 +2304,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-30)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2276,8 +2322,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-31)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2296,8 +2340,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-32)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2316,8 +2358,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-33)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2336,8 +2376,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-34)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2356,8 +2394,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-35)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2376,8 +2412,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-36)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2396,8 +2430,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-37)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2416,8 +2448,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-38)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2436,8 +2466,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-39)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2456,8 +2484,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-40)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2476,8 +2502,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-41)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2496,8 +2520,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-42)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2516,8 +2538,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-43)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2536,8 +2556,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-44)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2556,8 +2574,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-45)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2576,8 +2592,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-46)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2596,8 +2610,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-47)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2616,8 +2628,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-48)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2636,8 +2646,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-49)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2656,8 +2664,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-50)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2676,8 +2682,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-51)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2696,8 +2700,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-52)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2716,8 +2718,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-53)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2736,8 +2736,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-54)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2756,8 +2754,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-55)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2776,8 +2772,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-56)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2796,8 +2790,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-57)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2816,8 +2808,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-58)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2836,8 +2826,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-59)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2856,8 +2844,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-60)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2876,8 +2862,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-61)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2896,8 +2880,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-62)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2916,8 +2898,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-63)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2936,8 +2916,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-64)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2956,8 +2934,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-65)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2976,8 +2952,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-66)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -2996,8 +2970,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-67)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -3016,8 +2988,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-68)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -3036,8 +3006,6 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-69)
 \end{figure}
- 
- 
 \newpage 
 
  
@@ -3056,7 +3024,5 @@ Positive values mean that actual time is longer than expected, and the athlete s
 
 \caption{ - empty caption - }(\#fig:unnamed-chunk-16-70)
 \end{figure}
- 
- 
 
 

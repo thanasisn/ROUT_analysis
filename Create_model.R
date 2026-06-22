@@ -531,7 +531,7 @@ if (PLANS) {
     if (nrow(tmp) == 0) next
 
     cat("\\newpage", "\n\n")
-    cat("### Prediction for", HH, "hours (class", tmp[, unique(Class)], ")\n\n")
+    cat(paste0("### Prediction for ", HH, " hours (class", tmp[, unique(Class)], ")\n\n"))
 
     setorder(tmp, Ttime)
 
@@ -552,11 +552,11 @@ if (PLANS) {
 
     ## use new time to compute
 
-    tmp[, Dx    := diff(c(0, km))]
-    tmp[, Dt    := diff(c(0, Tnew))]
-    tmp[, Pace  := round(Dt / Dx     , 2)] ## min / km
-    tmp[, Speed := round(Dx / (Dt/60), 2)] ## km / h
-    tmp[, AvgPace  := round(Tnew / km,         2)]
+    tmp[, Dx       := diff(c(0, km))]
+    tmp[, Dt       := diff(c(0, Tnew))]
+    tmp[, Pace     := round(Dt / Dx     , 2)] ## min / km
+    tmp[, Speed    := round(Dx / (Dt/60), 2)] ## km / h
+    tmp[, AvgPace  := round(Tnew / km,        2)]
     tmp[, AvgSpeed := round(km   / (Tnew/60), 2)]
     tmp[, Tpartial := minutes_to_hhmm(Dt)]
 
@@ -583,7 +583,9 @@ if (PLANS) {
     rownames(pp) <- NULL
 
     ##  Export for pdf  --------
+    cat("\n\\footnotesize", "\n")
     cat(pander(pp, split.table = Inf))
+    cat("\n\\normalsize", "\n")
 
 
 
@@ -759,7 +761,11 @@ gather <- gather[rn != "K-181Χαϊντού"]
 #' ## Summary of % difference for all CP
 #'
 #+ echo=F, include=VALIDATE, results="asis", warning=F
-pander(summary(gather[, 100 * (Tnew - ActTime) / ActTime]))
+cat("\n\\footnotesize", "\n")
+cat(pander(summary(gather[, 100 * (Tnew - ActTime) / ActTime])))
+cat("\n\\normalsize", "\n")
+
+gather <- merge(gather, CP, by = "rn")
 
 
 #'
@@ -798,7 +804,6 @@ for (cp in unique(gather$rn)) {
   tmp <- gather[rn == cp]
   if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
 
-  # cat("\\newpage", "\n")
   cat("\\FloatBarrier", "\n")
   cat("\n#### Departures % from", cp, "\n\n")
 
@@ -806,11 +811,6 @@ for (cp in unique(gather$rn)) {
 
   pander(summary(tmp))
 
-
-  # hist(tmp[, Depart_pc],
-  #      breaks = 20,
-  #      freq = FALSE,
-  #      main = paste("Distribution of % difference for", cp))
 
   g_hist_cp <- ggplot(data = tmp, aes(x = Depart_pc)) +
     geom_histogram(aes(y = after_stat(count / sum(count)) * 100),
@@ -844,27 +844,53 @@ for (cl in unique(gather$Class)) {
   tmp <- gather[Class == cl]
   if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
 
-  cat("\\newpage", "\n\n")
-  cat("#### ", cl, "\n\n")
+  cat("\\FloatBarrier", "\n")
+  cat("\n#### Departures % for class", cl, "\n\n")
 
-  pander(summary(tmp[, 100 * (Tnew - ActTime) / ActTime]))
+  tmp[, Depart_pc := 100 * (Tnew - ActTime) / ActTime]
 
-  hist(tmp[, 100 * (Tnew - ActTime) / ActTime],
-       breaks = 20,
-       freq = FALSE,
-       main = paste("Distribution of % difference for class", cl))
+  pander(summary(tmp))
+
+  # hist(tmp[, 100 * (Tnew - ActTime) / ActTime],
+  #      breaks = 20,
+  #      freq = FALSE,
+  #      main = paste("Distribution of % difference for class", cl))
+
+
+  g_hist_cl <- ggplot(data = tmp, aes(x = Depart_pc)) +
+    geom_histogram(aes(y = after_stat(count / sum(count)) * 100),
+                   bins = 20,
+                   fill = "lightblue",
+                   color = "black") +
+    labs(title = paste("Distribution of % difference for class", cl),
+         x = "% Difference",
+         y = "Percentage (%)") +
+    theme_minimal()
+
+  if (knitr::is_latex_output()) {
+    print(g_hist_cl)
+  } else if (interactive()) {
+    ggplotly(g_hist_cl)
+  } else if (knitr::is_html_output()) {
+    htmltools::tagList(ggplotly(g_hist_cl)) %>% print()
+  } else {
+    print(g_hist_cl)
+  }
+
 }
 
 #'
 #' ## Departures by athlete
 #'
-#' Actual pass time minus predicted passes.
-#'
-#' Positive values mean that actual time is longer than expected, and the athlete slower than expected.
+#' We tested the actual passes of each athlete by prediction based on its finishing time. We computed the deviation
+#' of actual pass time from the predicted (Actual pass time minus predicted passes).
+#' So positive values indicate that the actual time is longer than expected, and thus the athlete slower than expected,
+#' from the prediction. The blue line is the cumulative time differences along all prediction. While the blue line move upwards the athlete is slower than expected as the positive time is explained by taking more time than the prediction.
 #'
 #+ echo=F, include=VALIDATE, results="asis", warning=F
 for (al in unique(gather$Name)) {
   tmp <- gather[Name == al]
+  setorder(tmp, km)
   if (nrow(tmp) <= 4) next()
 
   cat("\\newpage", "\n\n")
@@ -872,7 +898,13 @@ for (al in unique(gather$Name)) {
   cat(" \n \n")
   cat("#### ", al, "\n \n")
 
-  pander(summary(tmp[, 100 * (Tnew - ActTime) / ActTime]))
+  tmp[, Resid := ActTime - Tnew]
+
+  tmp <- tmp[!is.na(Resid)]
+
+  tmp[, Cusum := cumsum(Resid)]
+
+
 
   cat(" \n \n")
 
@@ -880,14 +912,44 @@ for (al in unique(gather$Name)) {
   #    main = paste("Distribution of % difference for", al))
 
   cat(" \n \n")
-  plot(tmp[, ActTime - Tnew, km ],
-       xlab = "",
-       ylab = "Diff minutes",
-       xaxt = "n",
-       main = al)
-  abline(h = 0, lty = 2, col = "red")
-  axis(1, at = tmp$km, labels = tmp$rn, las = 2)
-  cat(" \n \n")
+  # plot(tmp[, ActTime - Tnew, km ],
+  #      xlab = "",
+  #      ylab = "Diff minutes",
+  #      xaxt = "n",
+  #      main = al)
+  # abline(h = 0, lty = 2, col = "red")
+  # axis(1, at = tmp$km, labels = tmp$rn, las = 2)
+  # cat(" \n \n")
+
+  # library(ggrepel)
+  g_athl <-
+    ggplot(data = tmp, aes(x = km, y = round(Resid, 1), text = cp_name)) +
+    geom_hline(yintercept = 0, color = "green", linetype = "dotted") +
+    geom_line(aes(y = Cusum, x = km, group = 1),
+              color = "blue",
+              linetype = "solid") +
+    geom_point() +
+    # geom_text_repel(aes(label = cp_name),
+    #                 size = 3,
+    #                 box.padding = 0.5,
+    #                 point.padding = 0.5) +
+    # geom_text(aes(label = cp_name), vjust = -0.5, hjust = -1, size = 3) +
+    labs(title = paste("CP time exceeding prediction for", al),
+         y = "Minutes above prediction",
+         x = "Distance") +
+    theme_minimal()
+
+
+  if (knitr::is_latex_output()) {
+    print(g_athl)
+  } else if (interactive()) {
+    ggplotly(g_athl)
+  } else if (knitr::is_html_output()) {
+    htmltools::tagList(ggplotly(g_athl)) %>% print()
+  } else {
+    print(g_athl)
+  }
+
 }
 
 
