@@ -679,8 +679,6 @@ if (PLANS) {
     dev.off()
 
 
-
-
   }
 }
 
