@@ -129,6 +129,13 @@ DT[, συνμωτ    := NULL]
 DT[, `K-0CP-0` := 0]
 
 
+warning("\n\n\n ~~~~~ DEBUG IS ACTIVE!!!! ~~~~~\n\n\n")
+## Race start time
+START       <- as.POSIXct(Sys.time() + 3 * 24 * 3600)
+START_UTC   <- as.POSIXct(START, tz = "UTC")
+
+
+
 ##  Compute Astropy data  ------------------------------------------------------
 #+ echo=F, include=F, warning=F, message=F
 py_require("astropy")
@@ -148,9 +155,8 @@ moon_phase <- function(date, lat = lat, lon = lon, height = alt) {
   return(res$moon$phase)
 }
 
-
 ##  Get weather data for each CP and cache it  ------------------------------------
-if (file.exists(cp_wth_fl) && (Sys.time() - file.mtime(cp_wth_fl)) < weather_old_hr * 3600) {
+if (file.exists(cp_wth_fl) && difftime(Sys.time(), file.mtime(cp_wth_fl), units = "hours") < weather_old_hr) {
   cat("Using cached weather data\n")
   weather_gather <- readRDS(cp_wth_fl)
 } else {
@@ -198,6 +204,24 @@ if (file.exists(cp_wth_fl) && (Sys.time() - file.mtime(cp_wth_fl)) < weather_old
   }
   saveRDS(weather_gather, cp_wth_fl)
 }
+
+weather_gather <- weather_gather |>
+  filter(!Variable %in% c(
+    "is_day",
+    "freezing_level_height",
+    "shortwave_radiation_instant",
+    "direct_radiation_instant",
+    "diffuse_radiation_instant",
+    "direct_normal_irradiance_instant",
+    "cloud_cover_low",
+    "cloud_cover_high",
+    "relative_humidity_2m",
+    "cloud_cover_mid"
+  )
+  )
+
+weather_gather |> select(Variable) |> distinct()
+weather_gather |> select(Model) |> distinct()
 
 
 
@@ -580,8 +604,87 @@ if (PLANS) {
     pp$Date <- lubridate::round_date(pp$Date, unit = "min")
     pp$Date <- strftime(pp$Date, "%F %R")
 
+
+
+    # ------------------------------------------------------------
+    # 2.1  Ensure DateLoc / Date are POSIXct in the same timezone
+    # ------------------------------------------------------------
+    weather_gather[, DateLoc := as.POSIXct(DateLoc, tz = "Europe/Athens")]
+    pp[, Date := as.POSIXct(Date, tz = "Europe/Athens")]
+
+    # ------------------------------------------------------------
+    # 2.2  Split weather_gather by variable, interpolate per rn
+    # ------------------------------------------------------------
+    # Get unique variables
+    vars <- unique(weather_gather$Variable)
+
+    # Function: for one variable, interpolate for all pp$CP that match an rn
+    interp_one_var <- function(var_name) {
+
+      wg_sub <- weather_gather[Variable == var_name]
+
+      # Split by rn so we interpolate within each route/CP separately
+      wg_split <- split(wg_sub, by = "rn")
+
+      # For each rn, interpolate at the pp$Date of the matching CP
+      res_list <- lapply(names(wg_split), function(rn_val) {
+
+        wg_rn <- wg_split[[rn_val]]
+
+        # Find matching CP(s) in pp
+        pp_match <- pp[CP == rn_val]
+
+        if (nrow(pp_match) == 0) return(NULL)
+
+        # Interpolate: rule = 2 means constant extrapolation beyond range
+        interp_vals <- approx(
+          x    = as.numeric(wg_rn$DateLoc),
+          y    = wg_rn$Value,
+          xout = as.numeric(pp_match$Date),
+          rule = 2
+        )$y
+
+        data.table(
+          CP       = pp_match$CP,
+          Variable = var_name,
+          Date     = pp_match$Date,
+          Value    = interp_vals
+        )
+      })
+
+      rbindlist(res_list)
+    }
+
+    # Apply to all variables
+    interp_list <- lapply(vars, interp_one_var)
+    interp_dt   <- rbindlist(interp_list)
+
+    # ------------------------------------------------------------
+    # 2.3  Reshape to wide format: one row per CP, columns = variables
+    # ------------------------------------------------------------
+    interp_wide <- dcast(
+      interp_dt,
+      CP + Date ~ Variable,
+      value.var = "Value"
+    )
+
+    # ------------------------------------------------------------
+    # 2.4  Merge back with pp (keeping all pp columns)
+    # ------------------------------------------------------------
+    pp_weather <- merge(
+      pp,
+      interp_wide,
+      by = c("CP", "Date"),
+      all.x = TRUE
+    )
+    pp <- pp_weather
+
     rownames(pp) <- NULL
 
+    pp |> mutate(round(cloud_cover,1))
+
+
+    stop("DDD")
     ##  Export for pdf  --------
     cat("\n\\footnotesize", "\n")
     cat(pander(pp, split.table = Inf))
