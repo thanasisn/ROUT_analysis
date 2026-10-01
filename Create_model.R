@@ -131,7 +131,7 @@ DT[, `K-0CP-0` := 0]
 
 warning("\n\n\n ~~~~~ DEBUG IS ACTIVE!!!! ~~~~~\n\n\n")
 ## Race start time
-START       <- as.POSIXct(Sys.time() + 3 * 24 * 3600)
+START       <- as.POSIXct(Sys.time() + 1 * 24 * 3600)
 START_UTC   <- as.POSIXct(START, tz = "UTC")
 
 
@@ -215,6 +215,7 @@ weather_gather <- weather_gather |>
     "direct_normal_irradiance_instant",
     "cloud_cover_low",
     "cloud_cover_high",
+    "wind_direction_10m",
     "relative_humidity_2m",
     "cloud_cover_mid"
   )
@@ -609,8 +610,9 @@ if (PLANS) {
     # ------------------------------------------------------------
     # 2.1  Ensure DateLoc / Date are POSIXct in the same timezone
     # ------------------------------------------------------------
-    weather_gather[, DateLoc := as.POSIXct(DateLoc, tz = "Europe/Athens")]
-    pp[, Date := as.POSIXct(Date, tz = "Europe/Athens")]
+    # weather_gather[, DateLoc := as.POSIXct(DateLoc, tz = "Europe/Athens")]
+    # weather_gather[, parsed  := as.POSIXct(parsed, tz = "Europe/Athens")]
+    # pp[, Date := as.POSIXct(Date, tz = "Europe/Athens")]
 
     # ------------------------------------------------------------
     # 2.2  Split weather_gather by variable, interpolate per rn
@@ -679,12 +681,40 @@ if (PLANS) {
     )
     pp <- pp_weather
 
+    weatherdate <- weather_gather |>
+      mutate(parsed = round_date(parsed, "hour")) |>
+      select(parsed) |> distinct() |> last()
+    format(weatherdate, fmt= "%F %H")
+
+
     rownames(pp) <- NULL
 
-    pp |> mutate(round(cloud_cover,1))
+    pp <- pp |>
+      mutate(
+        cloud_cover               = round(cloud_cover,1),
+        precipitation             = round(precipitation,1),
+        precipitation_probability = round(precipitation_probability,1),
+        rain                      = round(rain,1),
+        showers                   = round(showers,1),
+        snowfall                  = round(snowfall,1),
+        temperature_2m            = round(temperature_2m,1),
+        apparent_temperature      = round(apparent_temperature,1),
+        wind_speed_10m           = round(wind_speed_10m,1),
+      ) |>
+      rename(
+        "Temperature C"     = temperature_2m,
+        "Feels like C"      = apparent_temperature,
+        "Cloudness %"       = cloud_cover,
+        Precip.             = precipitation,
+        "Rain mm"           = rain,
+        "Showers mm"        = showers,
+        "Snowfall mm"       = snowfall,
+        "Precip. Probab. %" = precipitation_probability,
+        "Wind km/h"         = wind_speed_10m,
+      )
 
+    setorder(pp, km)
 
-    stop("DDD")
     ##  Export for pdf  --------
     cat("\n\\footnotesize", "\n")
     cat(pander(pp, split.table = Inf))
@@ -735,7 +765,7 @@ if (PLANS) {
     #                                            paste0("⚫ ", pp$`Sun elevation angle`))
     pp_display$`Sun elevation angle` <- ifelse(pp$`Sun elevation angle` > 0,
                                                paste0("🟡 ", pp$`Sun elevation angle`),
-                                               paste0("", pp$`Sun elevation angle`))
+                                               paste0("No Sun"))
 
     # Add visual indicators to the Moon elevation angle
     pp_display$`Moon elevation angle` <- ifelse(pp$`Moon elevation angle` > 0,
@@ -756,7 +786,7 @@ if (PLANS) {
                                                                                                  paste0("🌘 ", pp$`Moon elevation angle`)))))))), # Waning crescent
                                                 # When moon is below horizon, show dashed moon
                                                 # paste0("💨 ", pp$`Moon elevation angle`)
-                                                paste0("", pp$`Moon elevation angle`)
+                                                paste0("No Moon")
     )  # Below horizon
 
     # Create base table

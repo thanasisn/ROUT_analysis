@@ -61,7 +61,7 @@ knitr::opts_chunk$set(fig.align  = "center" )
 knitr::opts_chunk$set(fig.cap    = " - empty caption - " )
 knitr::opts_chunk$set(cache      =  FALSE   )  ## !! breaks calculations
 knitr::opts_chunk$set(fig.pos    = 'h!'    )
-knitr::opts_chunk$set(tidy = TRUE,
+knitr::opts_chunk$set(tidy      = TRUE,
                       tidy.opts = list(
                         indent       = 4,
                         blank        = FALSE,
@@ -83,6 +83,12 @@ suppressMessages({
   require(grid,       quietly = TRUE, warn.conflicts = FALSE)
   require(gridExtra,  quietly = TRUE, warn.conflicts = FALSE)
   require(gtable,     quietly = TRUE, warn.conflicts = FALSE)
+  require(plotly,     quietly = TRUE, warn.conflicts = FALSE)
+  require(purrr,      quietly = TRUE, warn.conflicts = FALSE)
+  require(readODS,    quietly = TRUE, warn.conflicts = FALSE)
+  require(reticulate, quietly = TRUE, warn.conflicts = FALSE)
+  require(stringr,    quietly = TRUE, warn.conflicts = FALSE)
+  require(tidyr,      quietly = TRUE, warn.conflicts = FALSE)
 })
 
 source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
@@ -93,7 +99,7 @@ base_years <- 2023:2025
 base_years <- 2023:2024
 test_year  <- 2025
 
-
+## get finishers multiple years
 DT <- data.table()
 for (ay in base_years) {
 
@@ -127,11 +133,21 @@ DT[, συνμωτ    := NULL]
 DT[, `K-0CP-0` := 0]
 
 
+warning("\n\n\n ~~~~~ DEBUG IS ACTIVE!!!! ~~~~~\n\n\n")
+## Race start time
+START       <- as.POSIXct(Sys.time() + 3 * 24 * 3600)
+START_UTC   <- as.POSIXct(START, tz = "UTC")
+
+
+
 ##  Compute Astropy data  ------------------------------------------------------
+#+ echo=F, include=F, warning=F, message=F
 py_require("astropy")
 py_require("ephem")
-source_python("~/BBand_LAP/parameters/sun/sun_vector_astropy_p3.py")
-source_python("~/BBand_LAP/parameters/sun/moon_vector_ephem.py")
+source_python("~/MANUSCRIPTS/ROUT_analysis/sun_vector_astropy_p3.py")
+source_python("~/MANUSCRIPTS/ROUT_analysis/moon_vector_ephem.py")
+
+source_python("~/CODE/data_streams/helpers/fn_get_open_meteo_forecasts.py")
 
 moon_elevation <- function(date, lat = lat, lon = lon, height = alt) {
   res <- moon_sky_parameters(date, lat = lat, lon = lon, height = height)
@@ -143,10 +159,76 @@ moon_phase <- function(date, lat = lat, lon = lon, height = alt) {
   return(res$moon$phase)
 }
 
-# ## Call pythons Astropy for sun distance calculation
-# sunR_astropy <- function(date) {
-#   cbind(t(sun_vector(date, lat = lat, lon = lon, height = alt)), date)
-# }
+##  Get weather data for each CP and cache it  ------------------------------------
+if (file.exists(cp_wth_fl) && difftime(Sys.time(), file.mtime(cp_wth_fl), units = "hours") < weather_old_hr) {
+  cat("Using cached weather data\n")
+  weather_gather <- readRDS(cp_wth_fl)
+} else {
+  cat("Getting new weather data\n")
+
+  ## Get weather
+  weather_gather <- data.table()
+  for (i in 1:nrow(CP)) {
+    cat(i, nrow(CP), "\n")
+
+    forcasts <- get_open_meteo_forecasts(CP[i]$lat, CP[i]$lon)
+
+    clean_weather_df <- function(df) {
+      df %>%
+        # Convert to tibble
+        as_tibble() %>%
+        # Unnest list columns
+        mutate(across(where(is.list), ~{
+          if (all(lengths(.) == 1)) {
+            unlist(.)
+          } else {
+            map_chr(., paste, collapse = ", ")
+          }
+        })) %>%
+        # Fix column types
+        transmute(
+          Model     = as.character(model),
+          Variable  = as.character(variable),
+          Value     = as.numeric(value),
+          Latitude  = as.numeric(latitude),
+          Longitude = as.numeric(longitude),
+          Timezone  = stringr::str_remove_all(timezone, "b'|'"),
+          DateLoc   = ymd_hms(date) %>% force_tz(tz = first(stringr::str_remove_all(timezone, "b'|'")))
+        )
+    }
+
+    hourly   <- forcasts$hourly %>%
+      clean_weather_df() |>
+      filter(Model == "best_match")
+
+    tmp <- cbind(hourly, CP[i], parsed = Sys.time())
+
+    weather_gather <- rbind(weather_gather, tmp)
+    Sys.sleep(20)
+  }
+  saveRDS(weather_gather, cp_wth_fl)
+}
+
+weather_gather <- weather_gather |>
+  filter(!Variable %in% c(
+    "is_day",
+    "freezing_level_height",
+    "shortwave_radiation_instant",
+    "direct_radiation_instant",
+    "diffuse_radiation_instant",
+    "direct_normal_irradiance_instant",
+    "cloud_cover_low",
+    "cloud_cover_high",
+    "wind_direction_10m",
+    "relative_humidity_2m",
+    "cloud_cover_mid"
+  )
+  )
+
+weather_gather |> select(Variable) |> distinct()
+weather_gather |> select(Model) |> distinct()
+
+
 
 ## set gender
 DT <- DT |>  mutate(Gender = if_else(grepl("M",Κατ.), "Male", "Female"))
@@ -174,13 +256,13 @@ bbrakes <- 5
 #'
 #' All performance data were obtained directly from the race website
 #' (www.rout.gr).  The location of each checkpoint along the race route was
-#' derived from the race  GPX track and associated maps.
+#' derived from the race GPX track and associated maps.
 #'
 #'
 #' # Classes of models from the `r paste(unique(DT$year), collapse = ", ")` rases results
 #'
-#' Based on the distribution of total finishing times, we assume there are `r
-#' bbrakes` distinct classes of athletes. To construct a corresponding number
+#' Based on the distribution of total finishing times, we assume there are
+#' `r bbrakes` distinct classes of athletes. To construct a corresponding number
 #' of models, finishing times were partitioned into equal-sized bins. At this
 #' stage, no additional athlete characteristics (such as age, gender, or
 #' experience) are considered. For any given total time, the class
@@ -190,6 +272,7 @@ bbrakes <- 5
 breaks_vec <- seq(min(DT$`K-181Χαϊντού`, na.rm = TRUE),
                   max(DT$`K-181Χαϊντού`, na.rm = TRUE),
                   length.out = bbrakes + 1)
+
 
 g_histcat <- ggplot(DT, aes(x = `K-181Χαϊντού`)) +
   geom_histogram(breaks = breaks_vec,
@@ -230,14 +313,15 @@ DT$upper <- as.numeric( sub("[^,]*,([^]]*)\\]", "\\1", DT$bin) )
 #' \FloatBarrier
 #'
 #' For each class and for each segment between consecutive checkpoints, we
-#' calculated the corresponding mean pace (minutes per kilometer) and nean speed
-#' (kilometers per hour). We also computed the average pace and average speed
-#' from the start of the race to each checkpoint. The actual source code is
-#' displayed below.
+#' calculated the corresponding mean pace (minutes per kilometer) and mean
+#' speed (kilometers per hour), along with other statical measures. For each
+#' class, these values will be scaled to obtain the corresponding passes from
+#' each CP.  We also computed the average pace and speed from the start of the
+#' race to each checkpoint.  The actual source code is displayed below.
 #'
 #+ echo=T, include=T, results="asis", warning=F
 
-## create model for each class
+##  Create model for each class
 models <- data.table()
 for (id in unique(DT$binid)) {
   tmp <- DT[binid == id]
@@ -357,7 +441,7 @@ models <- merge(models, CP, by.x = "rn", by.y = "rn" )
 #'
 #' # Create prediction for each hour within it's class
 #'
-#' Predict passes for a range of finishing time. This was posted online.
+#' Predict passes for a range of finishing time. This was posted on-line.
 #' Sun angles are computed at the actual location of each check point.
 #'
 #+ echo=F, include=PLANS, results="asis", warning=F
@@ -393,11 +477,11 @@ if (PLANS) {
 
     ## use new time to compute
 
-    tmp[, Dx    := diff(c(0, km))]
-    tmp[, Dt    := diff(c(0, Tnew))]
-    tmp[, Pace  := round(Dt / Dx     , 2)] ## min / km
-    tmp[, Speed := round(Dx / (Dt/60), 2)] ## km / h
-    tmp[, AvgPace  := round(Tnew / km,         2)]
+    tmp[, Dx       := diff(c(0, km))]
+    tmp[, Dt       := diff(c(0, Tnew))]
+    tmp[, Pace     := round(Dt / Dx     , 2)] ## min / km
+    tmp[, Speed    := round(Dx / (Dt/60), 2)] ## km / h
+    tmp[, AvgPace  := round(Tnew / km,        2)]
     tmp[, AvgSpeed := round(km   / (Tnew/60), 2)]
     tmp[, Tpartial := minutes_to_hhmm(Dt)]
 
@@ -466,7 +550,7 @@ if (PLANS) {
     # Add visual indicators to the Sun elevation angle
     pp_display$`Sun elevation angle` <- ifelse(pp$`Sun elevation angle` > 0,
                                                paste0("🟡 ", pp$`Sun elevation angle`),
-                                               paste0("⚫ ", pp$`Sun elevation angle`))
+                                               paste0("No Sun"))
 
     # Add visual indicators to the Moon elevation angle
     pp_display$`Moon elevation angle` <- ifelse(pp$`Moon elevation angle` > 0,
@@ -487,7 +571,7 @@ if (PLANS) {
                                                                                                  paste0("🌘 ", pp$`Moon elevation angle`)))))))), # Waning crescent
                                                 # When moon is below horizon, show dashed moon
                                                 # paste0("💨 ", pp$`Moon elevation angle`)
-                                                paste0("", pp$`Moon elevation angle`)
+                                                paste0("No Moon")
     )  # Below horizon
 
     # Create base table
