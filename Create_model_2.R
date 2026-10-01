@@ -421,11 +421,12 @@ if (PLANS) {
     pp$Date <- lubridate::round_date(pp$Date, unit = "min")
     pp$Date <- strftime(pp$Date, "%F %R")
 
+
+
     rownames(pp) <- NULL
 
     ##  Export for pdf  --------
     cat(pander(pp, split.table = Inf))
-
 
 
     # ## create a table as an image
