@@ -128,11 +128,11 @@ DT[, `ΔΧ %`    := NULL]
 DT[, συνμωτ    := NULL]
 DT[, `K-0CP-0` := 0]
 
-
-warning("\n\n\n ~~~~~ DEBUG IS ACTIVE!!!! ~~~~~\n\n\n")
-## Race start time
-START       <- as.POSIXct(Sys.time() + 1 * 24 * 3600)
-START_UTC   <- as.POSIXct(START, tz = "UTC")
+#
+# warning("\n\n\n ~~~~~ DEBUG IS ACTIVE!!!! ~~~~~\n\n\n")
+# ## Race start time
+# START       <- as.POSIXct(Sys.time() + 1 * 24 * 3600)
+# START_UTC   <- as.POSIXct(START, tz = "UTC")
 
 
 
@@ -610,9 +610,9 @@ if (PLANS) {
     # ------------------------------------------------------------
     # 2.1  Ensure DateLoc / Date are POSIXct in the same timezone
     # ------------------------------------------------------------
-    # weather_gather[, DateLoc := as.POSIXct(DateLoc, tz = "Europe/Athens")]
+    weather_gather[, DateLoc := as.POSIXct(DateLoc, tz = "Europe/Athens")]
     # weather_gather[, parsed  := as.POSIXct(parsed, tz = "Europe/Athens")]
-    # pp[, Date := as.POSIXct(Date, tz = "Europe/Athens")]
+    pp[, Date := as.POSIXct(Date, tz = "Europe/Athens")]
 
     # ------------------------------------------------------------
     # 2.2  Split weather_gather by variable, interpolate per rn
@@ -643,7 +643,7 @@ if (PLANS) {
           x    = as.numeric(wg_rn$DateLoc),
           y    = wg_rn$Value,
           xout = as.numeric(pp_match$Date),
-          rule = 2
+          rule = 1
         )$y
 
         data.table(
@@ -683,8 +683,8 @@ if (PLANS) {
 
     weatherdate <- weather_gather |>
       mutate(parsed = round_date(parsed, "hour")) |>
-      select(parsed) |> distinct() |> last()
-    format(weatherdate, fmt= "%F %H")
+      select(parsed) |> distinct() |> last() |> pull()
+    weatherdate <- format(weatherdate, "%F %H:%M")
 
 
     rownames(pp) <- NULL
@@ -700,9 +700,11 @@ if (PLANS) {
         temperature_2m            = round(temperature_2m,1),
         apparent_temperature      = round(apparent_temperature,1),
         wind_speed_10m           = round(wind_speed_10m,1),
+        Date                     = format(Date, "%F %H:%M")
       ) |>
       rename(
         "Temperature C"     = temperature_2m,
+        "Time"              = Date,
         "Feels like C"      = apparent_temperature,
         "Cloudness %"       = cloud_cover,
         Precip.             = precipitation,
@@ -715,46 +717,23 @@ if (PLANS) {
 
     setorder(pp, km)
 
-    ##  Export for pdf  --------
+
+    ##  Export for documents  --------------------------------------------------
     cat("\n\\footnotesize", "\n")
     cat(pander(pp, split.table = Inf))
     cat("\n\\normalsize", "\n")
 
 
-
     # ## create a table as an image
-    ttl <- paste0("ROUT finishing target -- ", HH, " -- hours (class ", tmp[, unique(Class)],")")
-
-
-    # ##  Create a table as an image  ----
-    # ttl <- paste("ROUT finishing target:", HH, "hours, model class:", tmp[, unique(Class)])
-    #
-    # png(paste0("B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"), height = 25 * nrow(pp), width = 90 * ncol(pp))
-    #
-    # t1      <- tableGrob(pp, rows = NULL)
-    # title   <- textGrob(ttl, gp = gpar(fontsize = 20))
-    # padding <- unit(5,"mm")
-    #
-    # table <- gtable_add_rows(
-    #   t1,
-    #   heights = grobHeight(title) + padding,
-    #   pos = 0)
-    #
-    # table <- gtable_add_grob(
-    #   table,
-    #   title,
-    #   1, 1, 1, ncol(table))
-    #
-    # grid.newpage()
-    # grid.draw(table)
-    #
-    # dev.off()
+    ttl  <- paste0("ROUT finishing target -- ", HH, " -- hours (class ", tmp[, unique(Class)],")")
+    sttl <- paste0("Weather data: ", weatherdate,
+                       "  |  Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M"))
 
 
 
     png(paste0(EST_TBLS_dr, "/B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
         height = 25 * nrow(pp),
-        width  = 90 * ncol(pp))
+        width  = 81 * ncol(pp))
 
     # Create a copy of pp for display with visual indicators
     pp_display <- pp
@@ -794,23 +773,40 @@ if (PLANS) {
 
     # Add title
     title <- textGrob(ttl, gp = gpar(fontsize = 20))
-    padding <- unit(5, "mm")
+
+    title_grob    <- textGrob(ttl,
+                              gp = gpar(fontsize = 20, fontface = "bold"))
+    subtitle_grob <- textGrob(sttl,
+                              gp = gpar(fontsize = 13, fontface = "italic", col = "grey30"))
+
+
+
+    padding <- unit(6, "mm")
 
     table <- gtable_add_rows(
       t1,
-      heights = grobHeight(title) + padding,
+      heights = unit.c(
+        grobHeight(title_grob)    + padding,   # row 1: title
+        grobHeight(subtitle_grob) + padding    # row 2: subtitle
+      ),
       pos = 0)
+
 
     table <- gtable_add_grob(
       table,
-      title,
+      title_grob,
       1, 1, 1, ncol(table))
+
+    # Place subtitle in row 2
+    table <- gtable_add_grob(
+      table,
+      subtitle_grob,
+      2, 1, 2, ncol(table))
 
     grid.newpage()
     grid.draw(table)
 
     dev.off()
-
 
   }
 }
