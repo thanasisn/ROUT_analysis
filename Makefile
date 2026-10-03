@@ -36,20 +36,20 @@ $(HTML): $(RMD)
 
 
 ##  Build multi years prediction  ------------------------------------
-TARGET2 := Create_model_2
-RMD2    := $(TARGET2).R
-PDF2    := $(TARGET2).pdf
-HTML2   := $(TARGET2).html
+TARGET := Create_model_2
+RMD    := $(TARGET).R
+PDF    := $(TARGET).pdf
+HTML   := $(TARGET).html
 
-p2: $(PDF2) Makefile
-$(PDF2): $(RMD2)
+p2: $(PDF) Makefile
+$(PDF): $(RMD)
 	@mkdir -p $(OUTDIR)
 	@echo "Building: $@"
 	@Rscript -e "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::pdf_document2', output_file='$@', output_dir='$(OUTDIR)')"
 
 
-h2: $(HTML2) Makefile
-$(HTML2): $(RMD2)
+h2: $(HTML) Makefile
+$(HTML): $(RMD)
 	@mkdir -p $(OUTDIR)
 	@echo "Building: $@"
 	@echo "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::html_document2', output_file='$@', output_dir='$(OUTDIR)')"

@@ -110,7 +110,6 @@ for (ay in base_years) {
   DT     <- rbind(DT, tmp, fill = TRUE)
 }
 
-weather_old_hr <- 48
 
 PLANS  <- TRUE
 

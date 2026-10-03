@@ -1,19 +1,21 @@
 ---
-title:  "A simple data driven prediction of check point passes for Rodopy Ultra Trail (ROUT), based on the finishing times of 2025 ROUT"
+title:  "A data driven prediction, based on the finishing times of 2025 ROUT"
 date:   "2026-10-03"
 author:
-  - name:  Athanasios Natsis
-    email: natsisa@auth.gr
-    affiliation: AUTH
+  - name: Alice Anonymous
+    email: alice@example.com
+    affiliation: Some Institute of Technology
     footnote: Corresponding Author
+  - name: Bob Security
+    email: bob@example.com
+    affiliation: Another University
 address:
-  - code: AUTH
+  - code: Some Institute of Technology
     address: Department, Street, City, State, Zip
   - code: Another University
     address: Department, Street, City, State, Zip
 abstract: |
     This is the abstract.
-
 output:
   bookdown::html_document2:
     toc:              yes
@@ -31,10 +33,6 @@ output:
     toc_depth:        4
     fig_width:        5
     fig_height:       4
-  rticles::elsevier_article:
-    keep_tex: true
-    latex_engine:     xelatex
-    citation_package: natbib
   html_document:
     toc:             true
     number_sections: false
@@ -49,21 +47,18 @@ header-includes:
   - \usepackage{xunicode}
   - \usepackage{xltxtra}
   - \usepackage{placeins}
+  - \geometry{
+     a4paper,
+     left     = 20mm,
+     right    = 20mm,
+     top      = 25mm,
+     bottom   = 25mm,
+     headsep  = 3\baselineskip,
+     footskip = 4\baselineskip
+   }
   - \setmainfont[Scale=1.2]{Linux Libertine O}
 ---
 
-
-``` r
-# - \geometry{
-#    a4paper,
-#    left     = 20mm,
-#    right    = 20mm,
-#    top      = 25mm,
-#    bottom   = 25mm,
-#    headsep  = 3\baselineskip,
-#    footskip = 4\baselineskip
-#  }
-```
 
 
 
@@ -107,11 +102,11 @@ corresponding to its bin is used.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-7-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-6-1} 
 
 }
 
-\caption{Distribution of finishing time in minutes for the 5 classes}(\#fig:unnamed-chunk-7)
+\caption{Distribution of finishing time in minutes for the 5 classes}(\#fig:unnamed-chunk-6)
 \end{figure}
 
 \FloatBarrier
@@ -1481,11 +1476,11 @@ We excluded finishing time from the statistical evaluation, as the modelled fini
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-12-1} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-13)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-12)
 \end{figure}
 
 
@@ -1496,207 +1491,207 @@ We calculated the departure in per cent of each athlete actual CP pass time from
 
 \FloatBarrier 
 
-#### Departures % for K-101CP-10 
+#### Departures % from K-101CP-10 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-1} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-1)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-1)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-114CP-11 
+#### Departures % from K-114CP-11 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-2} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-2} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-2)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-2)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-123CP-13 
+#### Departures % from K-123CP-13 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-3} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-3} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-3)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-3)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-132CP-14 
+#### Departures % from K-132CP-14 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-4} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-4} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-4)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-4)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-138CP-15 
+#### Departures % from K-138CP-15 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-5} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-5} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-5)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-5)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-148CP-17 
+#### Departures % from K-148CP-17 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-6} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-6} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-6)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-6)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-152CP-18 
+#### Departures % from K-152CP-18 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-7} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-7} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-7)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-7)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-161CP-19 
+#### Departures % from K-161CP-19 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-8} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-8} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-8)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-8)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-171CP-21 
+#### Departures % from K-171CP-21 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-9} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-9} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-9)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-9)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-174CP-22 
+#### Departures % from K-174CP-22 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-10} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-10} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-10)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-10)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-20CP-3 
+#### Departures % from K-20CP-3 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-11} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-11} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-11)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-11)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-29CP-4 
+#### Departures % from K-29CP-4 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-12} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-12} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-12)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-12)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-42CP-5 
+#### Departures % from K-42CP-5 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-13} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-13} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-13)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-13)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-57CP-6 
+#### Departures % from K-57CP-6 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-14} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-14} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-14)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-14)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-62CP-7 
+#### Departures % from K-62CP-7 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-15} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-15} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-15)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-15)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-85CP-8 
+#### Departures % from K-85CP-8 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-16} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-16} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-16)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-16)
 \end{figure}
 \FloatBarrier 
 
-#### Departures % for K-91CP-9 
+#### Departures % from K-91CP-9 
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-17} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-13-17} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-14-17)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-13-17)
 \end{figure}
 
 
@@ -1711,11 +1706,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-1} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-15-1)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-1)
 \end{figure}
 \FloatBarrier 
 
@@ -1723,11 +1718,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-2} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-2} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-15-2)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-2)
 \end{figure}
 \FloatBarrier 
 
@@ -1735,11 +1730,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-3} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-3} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-15-3)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-3)
 \end{figure}
 \FloatBarrier 
 
@@ -1747,11 +1742,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-4} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-4} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-15-4)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-4)
 \end{figure}
 \FloatBarrier 
 
@@ -1759,11 +1754,11 @@ Per cent difference from the modelled time for all check point, fro each class.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-5} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-14-5} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-15-5)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-14-5)
 \end{figure}
 
 
@@ -1787,11 +1782,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-1} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-1)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-1)
 \end{figure}
 \newpage 
 
@@ -1805,11 +1800,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-2} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-2} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-2)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-2)
 \end{figure}
 \newpage 
 
@@ -1823,11 +1818,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-3} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-3} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-3)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-3)
 \end{figure}
 \newpage 
 
@@ -1841,11 +1836,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-4} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-4} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-4)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-4)
 \end{figure}
 \newpage 
 
@@ -1859,11 +1854,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-5} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-5} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-5)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-5)
 \end{figure}
 \newpage 
 
@@ -1877,11 +1872,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-6} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-6} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-6)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-6)
 \end{figure}
 \newpage 
 
@@ -1895,11 +1890,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-7} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-7} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-7)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-7)
 \end{figure}
 \newpage 
 
@@ -1913,11 +1908,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-8} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-8} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-8)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-8)
 \end{figure}
 \newpage 
 
@@ -1931,11 +1926,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-9} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-9} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-9)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-9)
 \end{figure}
 \newpage 
 
@@ -1949,11 +1944,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-10} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-10} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-10)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-10)
 \end{figure}
 \newpage 
 
@@ -1967,11 +1962,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-11} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-11} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-11)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-11)
 \end{figure}
 \newpage 
 
@@ -1985,11 +1980,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-12} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-12} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-12)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-12)
 \end{figure}
 \newpage 
 
@@ -2003,11 +1998,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-13} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-13} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-13)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-13)
 \end{figure}
 \newpage 
 
@@ -2021,11 +2016,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-14} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-14} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-14)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-14)
 \end{figure}
 \newpage 
 
@@ -2039,11 +2034,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-15} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-15} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-15)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-15)
 \end{figure}
 \newpage 
 
@@ -2057,11 +2052,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-16} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-16} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-16)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-16)
 \end{figure}
 \newpage 
 
@@ -2075,11 +2070,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-17} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-17} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-17)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-17)
 \end{figure}
 \newpage 
 
@@ -2093,11 +2088,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-18} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-18} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-18)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-18)
 \end{figure}
 \newpage 
 
@@ -2111,11 +2106,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-19} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-19} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-19)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-19)
 \end{figure}
 \newpage 
 
@@ -2129,11 +2124,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-20} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-20} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-20)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-20)
 \end{figure}
 \newpage 
 
@@ -2147,11 +2142,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-21} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-21} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-21)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-21)
 \end{figure}
 \newpage 
 
@@ -2165,11 +2160,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-22} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-22} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-22)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-22)
 \end{figure}
 \newpage 
 
@@ -2183,11 +2178,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-23} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-23} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-23)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-23)
 \end{figure}
 \newpage 
 
@@ -2201,11 +2196,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-24} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-24} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-24)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-24)
 \end{figure}
 \newpage 
 
@@ -2219,11 +2214,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-25} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-25} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-25)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-25)
 \end{figure}
 \newpage 
 
@@ -2237,11 +2232,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-26} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-26} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-26)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-26)
 \end{figure}
 \newpage 
 
@@ -2255,11 +2250,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-27} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-27} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-27)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-27)
 \end{figure}
 \newpage 
 
@@ -2273,11 +2268,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-28} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-28} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-28)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-28)
 \end{figure}
 \newpage 
 
@@ -2291,11 +2286,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-29} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-29} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-29)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-29)
 \end{figure}
 \newpage 
 
@@ -2309,11 +2304,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-30} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-30} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-30)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-30)
 \end{figure}
 \newpage 
 
@@ -2327,11 +2322,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-31} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-31} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-31)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-31)
 \end{figure}
 \newpage 
 
@@ -2345,11 +2340,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-32} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-32} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-32)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-32)
 \end{figure}
 \newpage 
 
@@ -2363,11 +2358,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-33} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-33} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-33)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-33)
 \end{figure}
 \newpage 
 
@@ -2381,11 +2376,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-34} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-34} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-34)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-34)
 \end{figure}
 \newpage 
 
@@ -2399,11 +2394,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-35} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-35} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-35)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-35)
 \end{figure}
 \newpage 
 
@@ -2417,11 +2412,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-36} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-36} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-36)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-36)
 \end{figure}
 \newpage 
 
@@ -2435,11 +2430,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-37} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-37} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-37)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-37)
 \end{figure}
 \newpage 
 
@@ -2453,11 +2448,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-38} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-38} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-38)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-38)
 \end{figure}
 \newpage 
 
@@ -2471,11 +2466,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-39} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-39} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-39)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-39)
 \end{figure}
 \newpage 
 
@@ -2489,11 +2484,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-40} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-40} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-40)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-40)
 \end{figure}
 \newpage 
 
@@ -2507,11 +2502,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-41} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-41} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-41)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-41)
 \end{figure}
 \newpage 
 
@@ -2525,11 +2520,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-42} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-42} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-42)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-42)
 \end{figure}
 \newpage 
 
@@ -2543,11 +2538,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-43} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-43} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-43)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-43)
 \end{figure}
 \newpage 
 
@@ -2561,11 +2556,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-44} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-44} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-44)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-44)
 \end{figure}
 \newpage 
 
@@ -2579,11 +2574,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-45} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-45} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-45)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-45)
 \end{figure}
 \newpage 
 
@@ -2597,11 +2592,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-46} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-46} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-46)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-46)
 \end{figure}
 \newpage 
 
@@ -2615,11 +2610,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-47} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-47} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-47)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-47)
 \end{figure}
 \newpage 
 
@@ -2633,11 +2628,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-48} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-48} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-48)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-48)
 \end{figure}
 \newpage 
 
@@ -2651,11 +2646,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-49} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-49} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-49)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-49)
 \end{figure}
 \newpage 
 
@@ -2669,11 +2664,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-50} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-50} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-50)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-50)
 \end{figure}
 \newpage 
 
@@ -2687,11 +2682,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-51} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-51} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-51)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-51)
 \end{figure}
 \newpage 
 
@@ -2705,11 +2700,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-52} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-52} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-52)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-52)
 \end{figure}
 \newpage 
 
@@ -2723,11 +2718,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-53} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-53} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-53)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-53)
 \end{figure}
 \newpage 
 
@@ -2741,11 +2736,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-54} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-54} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-54)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-54)
 \end{figure}
 \newpage 
 
@@ -2759,11 +2754,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-55} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-55} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-55)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-55)
 \end{figure}
 \newpage 
 
@@ -2777,11 +2772,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-56} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-56} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-56)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-56)
 \end{figure}
 \newpage 
 
@@ -2795,11 +2790,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-57} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-57} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-57)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-57)
 \end{figure}
 \newpage 
 
@@ -2813,11 +2808,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-58} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-58} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-58)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-58)
 \end{figure}
 \newpage 
 
@@ -2831,11 +2826,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-59} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-59} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-59)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-59)
 \end{figure}
 \newpage 
 
@@ -2849,11 +2844,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-60} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-60} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-60)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-60)
 \end{figure}
 \newpage 
 
@@ -2867,11 +2862,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-61} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-61} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-61)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-61)
 \end{figure}
 \newpage 
 
@@ -2885,11 +2880,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-62} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-62} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-62)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-62)
 \end{figure}
 \newpage 
 
@@ -2903,11 +2898,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-63} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-63} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-63)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-63)
 \end{figure}
 \newpage 
 
@@ -2921,11 +2916,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-64} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-64} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-64)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-64)
 \end{figure}
 \newpage 
 
@@ -2939,11 +2934,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-65} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-65} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-65)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-65)
 \end{figure}
 \newpage 
 
@@ -2957,11 +2952,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-66} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-66} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-66)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-66)
 \end{figure}
 \newpage 
 
@@ -2975,11 +2970,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-67} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-67} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-67)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-67)
 \end{figure}
 \newpage 
 
@@ -2993,11 +2988,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-68} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-68} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-68)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-68)
 \end{figure}
 \newpage 
 
@@ -3011,11 +3006,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-69} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-69} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-69)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-69)
 \end{figure}
 \newpage 
 
@@ -3029,11 +3024,11 @@ from the prediction. The blue line is the cumulative time differences along all 
  
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-16-70} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-15-70} 
 
 }
 
-\caption{ - empty caption - }(\#fig:unnamed-chunk-16-70)
+\caption{ - empty caption - }(\#fig:unnamed-chunk-15-70)
 \end{figure}
 
 
