@@ -118,7 +118,7 @@ source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
 
 ## for the current year no validation
 ## for previous year export validation
-base_year <- 2025
+base_year <- 2024
 
 PLANS  <- FALSE
 PLANS  <- TRUE
@@ -696,7 +696,7 @@ if (PLANS) {
       rename(
         "Avg Pace" = AvgPace,
         "Avg Speed km/h" = AvgSpeed,
-        "Speed km/h"     = Speed.
+        "Speed km/h"     = Speed,
         "Split pace"     = Pace,
       )
 
@@ -766,7 +766,7 @@ if (PLANS) {
 
     png(paste0(EST_TBLS_dr, "/B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
         height = 26 * nrow(pp),
-        width  = 84 * ncol(pp))
+        width  = 86 * ncol(pp))
 
     # Create a copy of pp for display with visual indicators
     pp_display <- pp
