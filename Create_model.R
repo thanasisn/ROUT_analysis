@@ -1,9 +1,22 @@
 # /* Copyright (C) 2023 Athanasios Natsis <natsisphysicist@gmail.com> */
 #' ---
-#' title:  "A data driven prediction, based on the finishing times of 2024 ROUT"
+#' title:  "A simple data driven prediction of check point passes for Rodopy Ultra Trail (ROUT), based on the finishing times of 2025 ROUT"
 #' date:   "`r strftime(Sys.time(), '%F', tz= 'Europe/Athens')`"
-#' author: "Athanasios N Natsis"
-#'
+#' author:
+#'   - name: Alice Anonymous
+#'     email: alice@example.com
+#'     affiliation: Some Institute of Technology
+#'     footnote: Corresponding Author
+#'   - name: Bob Security
+#'     email: bob@example.com
+#'     affiliation: Another University
+#' address:
+#'   - code: Some Institute of Technology
+#'     address: Department, Street, City, State, Zip
+#'   - code: Another University
+#'     address: Department, Street, City, State, Zip
+#' abstract: |
+#'     This is the abstract.
 #' output:
 #'   bookdown::html_document2:
 #'     toc:              yes
@@ -99,7 +112,10 @@ tagList(ggplotly(ggplot()))
 
 source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
 
-base_year <- 2025
+
+## for the current year no validation
+## for previous year export validation
+base_year <- 2024
 
 PLANS  <- FALSE
 PLANS  <- TRUE
@@ -579,9 +595,9 @@ if (PLANS) {
 
     tmp[, Dx       := diff(c(0, km))]
     tmp[, Dt       := diff(c(0, Tnew))]
-    tmp[, Pace     := round(Dt / Dx     , 2)] ## min / km
+    tmp[, Pace     := minutes_to_mmss(round(Dt / Dx     , 2))] ## min / km
     tmp[, Speed    := round(Dx / (Dt/60), 2)] ## km / h
-    tmp[, AvgPace  := round(Tnew / km,        2)]
+    tmp[, AvgPace  := minutes_to_mmss(round(Tnew / km,        2))]
     tmp[, AvgSpeed := round(km   / (Tnew/60), 2)]
     tmp[, Tpartial := minutes_to_hhmm(Dt)]
 
@@ -603,7 +619,7 @@ if (PLANS) {
     names(pp) <- c("CP", "km", "Total time", "Partial time", "Pace", "Speed", "AvgPace", "AvgSpeed", "Date", "Sun elevation angle", "Moon elevation angle", "Moon Phase %")
 
     pp$Date <- lubridate::round_date(pp$Date, unit = "min")
-    pp$Date <- strftime(pp$Date, "%F %R")
+    pp$Date <- strftime(pp$Date, "%F %H:%M")
 
 
 
@@ -670,13 +686,16 @@ if (PLANS) {
       value.var = "Value"
     )
 
-    pp <- pp |> mutate(
-      Date = format(Date, "%F %H:%M"),
-      `Sun elevation angle`  = round(`Sun elevation angle`, 1),
-      `Moon elevation angle` = round(`Moon elevation angle`, 1),
-      minutes_to_mmss(Pace)
-    )
-
+    pp <- pp |>
+      mutate(
+        `Sun elevation angle`  = round(`Sun elevation angle`, 1),
+        `Moon elevation angle` = round(`Moon elevation angle`, 1),
+      ) |>
+      rename(
+        "Avg Pace"       = AvgPace,
+        "Avg Speed km/h" = AvgSpeed,
+        "Speed km/h"     = Speed
+      )
 
 
     # ------------------------------------------------------------
@@ -689,7 +708,6 @@ if (PLANS) {
       all.x = TRUE
     )
 
-    stop()
     ##  Export for documents  --------------------------------------------------
     cat("\n\\footnotesize", "\n")
     cat(pander(pp, split.table = Inf))
@@ -888,15 +906,14 @@ if (VALIDATE) {
       tmps[, .(rn, km, Tnew, ActTime, Name = ll$Αθλητής, Class)]
     )
   }
+
+  cat("We excluded finishing time from the statistical evaluation, as the modelled finishing time is equal.")
+
+  gather <- gather[rn != "K-181Χαϊντού"]
 }
 
-#'
-#' We excluded finishing time from the statistical evaluation, as the modelled
-#' finishing time is equal.
-#'
-#+ echo=F, include=VALIDATE, results="asis", warning=F
 
-gather <- gather[rn != "K-181Χαϊντού"]
+
 
 #'
 #' ## Summary of % difference for all CP
