@@ -17,7 +17,12 @@
 #'     address: Department, Street, City, State, Zip
 #' abstract: |
 #'     This is the abstract.
+#'
 #' output:
+#'   rticles::elsevier_article:
+#'     keep_tex: true
+#'     latex_engine:     xelatex
+#'     citation_package: natbib
 #'   bookdown::html_document2:
 #'     toc:              yes
 #'     number_sections:  no
@@ -48,15 +53,15 @@
 #'   - \usepackage{xunicode}
 #'   - \usepackage{xltxtra}
 #'   - \usepackage{placeins}
-#'   - \geometry{
-#'      a4paper,
-#'      left     = 20mm,
-#'      right    = 20mm,
-#'      top      = 25mm,
-#'      bottom   = 25mm,
-#'      headsep  = 3\baselineskip,
-#'      footskip = 4\baselineskip
-#'    }
+#' # - \geometry{
+#' #    a4paper,
+#' #    left     = 20mm,
+#' #    right    = 20mm,
+#' #    top      = 25mm,
+#' #    bottom   = 25mm,
+#' #    headsep  = 3\baselineskip,
+#' #    footskip = 4\baselineskip
+#' #  }
 #'   - \setmainfont[Scale=1.2]{Linux Libertine O}
 #' ---
 
