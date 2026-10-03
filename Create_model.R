@@ -99,7 +99,7 @@ tagList(ggplotly(ggplot()))
 
 source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
 
-base_year <- 2024
+base_year <- 2025
 
 PLANS  <- FALSE
 PLANS  <- TRUE
@@ -670,6 +670,15 @@ if (PLANS) {
       value.var = "Value"
     )
 
+    pp <- pp |> mutate(
+      Date = format(Date, "%F %H:%M"),
+      `Sun elevation angle`  = round(`Sun elevation angle`, 1),
+      `Moon elevation angle` = round(`Moon elevation angle`, 1),
+      minutes_to_mmss(Pace)
+    )
+
+
+
     # ------------------------------------------------------------
     # 2.4  Merge back with pp (keeping all pp columns)
     # ------------------------------------------------------------
@@ -679,6 +688,15 @@ if (PLANS) {
       by = c("CP", "Date"),
       all.x = TRUE
     )
+
+    stop()
+    ##  Export for documents  --------------------------------------------------
+    cat("\n\\footnotesize", "\n")
+    cat(pander(pp, split.table = Inf))
+    cat("\n\\normalsize", "\n")
+
+
+
     pp <- pp_weather
 
     weatherdate <- weather_gather |>
@@ -699,8 +717,8 @@ if (PLANS) {
         snowfall                  = round(snowfall,1),
         temperature_2m            = round(temperature_2m,1),
         apparent_temperature      = round(apparent_temperature,1),
-        wind_speed_10m           = round(wind_speed_10m,1),
-        Date                     = format(Date, "%F %H:%M")
+        wind_speed_10m            = round(wind_speed_10m,1),
+        Date                      = format(Date, "%F %H:%M")
       ) |>
       rename(
         "Temperature C"     = temperature_2m,
@@ -718,10 +736,6 @@ if (PLANS) {
     setorder(pp, km)
 
 
-    ##  Export for documents  --------------------------------------------------
-    cat("\n\\footnotesize", "\n")
-    cat(pander(pp, split.table = Inf))
-    cat("\n\\normalsize", "\n")
 
 
     # ## create a table as an image
