@@ -1,8 +1,19 @@
 # /* Copyright (C) 2023 Athanasios Natsis <natsisphysicist@gmail.com> */
 #' ---
-#' title:  "A data driven prediction, based on the finishing times of 2024 ROUT"
+#' title:  "A simple data driven prediction of check point passes for Rodopy Ultra Trail (ROUT), based on the finishing times of 2025 ROUT"
 #' date:   "`r strftime(Sys.time(), '%F', tz= 'Europe/Athens')`"
-#' author: "Athanasios N Natsis"
+#' author:
+#'   - name:  Athanasios Natsis
+#'     email: natsisa@auth.gr
+#'     affiliation: AUTH
+#'     footnote: Corresponding Author
+#' address:
+#'   - code: AUTH
+#'     address: Department, Street, City, State, Zip
+#'   - code: Another University
+#'     address: Department, Street, City, State, Zip
+#' abstract: |
+#'     This is the abstract.
 #'
 #' output:
 #'   bookdown::html_document2:
@@ -21,6 +32,10 @@
 #'     toc_depth:        4
 #'     fig_width:        5
 #'     fig_height:       4
+#'   rticles::elsevier_article:
+#'     keep_tex: true
+#'     latex_engine:     xelatex
+#'     citation_package: natbib
 #'   html_document:
 #'     toc:             true
 #'     number_sections: false
@@ -35,17 +50,18 @@
 #'   - \usepackage{xunicode}
 #'   - \usepackage{xltxtra}
 #'   - \usepackage{placeins}
-#'   - \geometry{
-#'      a4paper,
-#'      left     = 20mm,
-#'      right    = 20mm,
-#'      top      = 25mm,
-#'      bottom   = 25mm,
-#'      headsep  = 3\baselineskip,
-#'      footskip = 4\baselineskip
-#'    }
 #'   - \setmainfont[Scale=1.2]{Linux Libertine O}
 #' ---
+
+# - \geometry{
+#    a4paper,
+#    left     = 20mm,
+#    right    = 20mm,
+#    top      = 25mm,
+#    bottom   = 25mm,
+#    headsep  = 3\baselineskip,
+#    footskip = 4\baselineskip
+#  }
 
 #+ echo=F, include=F, warning=F, message=F
 rm(list = (ls()[ls() != ""]))
@@ -99,6 +115,9 @@ tagList(ggplotly(ggplot()))
 
 source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
 
+
+## for the current year no validation
+## for previous year export validation
 base_year <- 2024
 
 PLANS  <- FALSE
@@ -107,7 +126,7 @@ PLANS  <- TRUE
 dtk_fl <- paste0("~/Documents/Running/ROUT results/ROUT_",        base_year, ".ods")
 mdl_fl <- paste0("~/Documents/Running/ROUT results/ROUT_models_", base_year, ".Rds")
 
-weather_old_hr <- 48
+weather_old_hr <- 24
 
 ## get locations
 CP <- data.table(read_ods(cp_fl))
@@ -579,9 +598,9 @@ if (PLANS) {
 
     tmp[, Dx       := diff(c(0, km))]
     tmp[, Dt       := diff(c(0, Tnew))]
-    tmp[, Pace     := round(Dt / Dx     , 2)] ## min / km
+    tmp[, Pace     := minutes_to_mmss(round(Dt / Dx     , 2))] ## min / km
     tmp[, Speed    := round(Dx / (Dt/60), 2)] ## km / h
-    tmp[, AvgPace  := round(Tnew / km,        2)]
+    tmp[, AvgPace  := minutes_to_mmss(round(Tnew / km,        2))]
     tmp[, AvgSpeed := round(km   / (Tnew/60), 2)]
     tmp[, Tpartial := minutes_to_hhmm(Dt)]
 
@@ -600,11 +619,10 @@ if (PLANS) {
 
     ## for export
     pp <- tmp[, .(  rn,   km,     Tnew_hhmm,       Tpartial,   Pace,   Speed,   AvgPace,   AvgSpeed,  Date,         Sun_Elevation,         Moon_Elevation, Moon_Phase_percent)]
-    names(pp) <- c("CP", "km", "Total time", "Partial time", "Pace", "Speed", "AvgPace", "AvgSpeed", "Date", "Sun elevation angle", "Moon elevation angle", "Moon Phase %")
+    names(pp) <- c("CP", "km", "Total time", "Split time", "Pace", "Speed", "AvgPace", "AvgSpeed", "Date", "Sun elevation angle", "Moon elevation angle", "Moon Phase %")
 
     pp$Date <- lubridate::round_date(pp$Date, unit = "min")
-    pp$Date <- strftime(pp$Date, "%F %R")
-
+    pp$Date <- strftime(pp$Date, "%F %H:%M")
 
 
     # ------------------------------------------------------------
@@ -670,6 +688,19 @@ if (PLANS) {
       value.var = "Value"
     )
 
+    pp <- pp |>
+      mutate(
+        `Sun elevation angle`  = round(`Sun elevation angle`, 1),
+        `Moon elevation angle` = round(`Moon elevation angle`, 1),
+      ) |>
+      rename(
+        "Avg Pace" = AvgPace,
+        "Avg Speed km/h" = AvgSpeed,
+        "Speed km/h"     = Speed,
+        "Split pace"     = Pace,
+      )
+
+
     # ------------------------------------------------------------
     # 2.4  Merge back with pp (keeping all pp columns)
     # ------------------------------------------------------------
@@ -679,6 +710,14 @@ if (PLANS) {
       by = c("CP", "Date"),
       all.x = TRUE
     )
+
+    ##  Export for documents  --------------------------------------------------
+    cat("\n\\footnotesize", "\n")
+    cat(pander(pp, split.table = Inf))
+    cat("\n\\normalsize", "\n")
+
+
+
     pp <- pp_weather
 
     weatherdate <- weather_gather |>
@@ -699,8 +738,8 @@ if (PLANS) {
         snowfall                  = round(snowfall,1),
         temperature_2m            = round(temperature_2m,1),
         apparent_temperature      = round(apparent_temperature,1),
-        wind_speed_10m           = round(wind_speed_10m,1),
-        Date                     = format(Date, "%F %H:%M")
+        wind_speed_10m            = round(wind_speed_10m,1),
+        Date                      = format(Date, "%F %H:%M")
       ) |>
       rename(
         "Temperature C"     = temperature_2m,
@@ -718,22 +757,16 @@ if (PLANS) {
     setorder(pp, km)
 
 
-    ##  Export for documents  --------------------------------------------------
-    cat("\n\\footnotesize", "\n")
-    cat(pander(pp, split.table = Inf))
-    cat("\n\\normalsize", "\n")
-
-
     # ## create a table as an image
-    ttl  <- paste0("ROUT finishing target -- ", HH, " -- hours (class ", tmp[, unique(Class)],")")
-    sttl <- paste0("Weather data: ", weatherdate,
-                       "  |  Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M"))
-
+    ttl  <- paste0("ROUT finishing target of -- ", HH, " -- hours (class ", tmp[, unique(Class)],")")
+    sttl <- paste0("Weather data date: ", weatherdate,
+                   "  |  Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M"),
+                   "  |  By: Athanasios Natsis, natsisa@auth.gr")
 
 
     png(paste0(EST_TBLS_dr, "/B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
-        height = 25 * nrow(pp),
-        width  = 81 * ncol(pp))
+        height = 26 * nrow(pp),
+        width  = 86 * ncol(pp))
 
     # Create a copy of pp for display with visual indicators
     pp_display <- pp
@@ -874,15 +907,14 @@ if (VALIDATE) {
       tmps[, .(rn, km, Tnew, ActTime, Name = ll$Αθλητής, Class)]
     )
   }
+
+  cat("We excluded finishing time from the statistical evaluation, as the modelled finishing time is equal.")
+
+  gather <- gather[rn != "K-181Χαϊντού"]
 }
 
-#'
-#' We excluded finishing time from the statistical evaluation, as the modelled
-#' finishing time is equal.
-#'
-#+ echo=F, include=VALIDATE, results="asis", warning=F
 
-gather <- gather[rn != "K-181Χαϊντού"]
+
 
 #'
 #' ## Summary of % difference for all CP
@@ -932,7 +964,7 @@ for (cp in unique(gather$rn)) {
   if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
 
   cat("\\FloatBarrier", "\n")
-  cat("\n#### Departures % from", cp, "\n\n")
+  cat("\n#### Departures % for", cp, "\n\n")
 
   tmp[, Depart_pc := 100 * (Tnew - ActTime) / ActTime]
 
