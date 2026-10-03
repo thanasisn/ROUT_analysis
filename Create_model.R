@@ -3,15 +3,12 @@
 #' title:  "A simple data driven prediction of check point passes for Rodopy Ultra Trail (ROUT), based on the finishing times of 2025 ROUT"
 #' date:   "`r strftime(Sys.time(), '%F', tz= 'Europe/Athens')`"
 #' author:
-#'   - name: Alice Anonymous
-#'     email: alice@example.com
-#'     affiliation: Some Institute of Technology
+#'   - name:  Athanasios Natsis
+#'     email: natsisa@auth.gr
+#'     affiliation: AUTH
 #'     footnote: Corresponding Author
-#'   - name: Bob Security
-#'     email: bob@example.com
-#'     affiliation: Another University
 #' address:
-#'   - code: Some Institute of Technology
+#'   - code: AUTH
 #'     address: Department, Street, City, State, Zip
 #'   - code: Another University
 #'     address: Department, Street, City, State, Zip
@@ -19,10 +16,6 @@
 #'     This is the abstract.
 #'
 #' output:
-#'   rticles::elsevier_article:
-#'     keep_tex: true
-#'     latex_engine:     xelatex
-#'     citation_package: natbib
 #'   bookdown::html_document2:
 #'     toc:              yes
 #'     number_sections:  no
@@ -39,6 +32,10 @@
 #'     toc_depth:        4
 #'     fig_width:        5
 #'     fig_height:       4
+#'   rticles::elsevier_article:
+#'     keep_tex: true
+#'     latex_engine:     xelatex
+#'     citation_package: natbib
 #'   html_document:
 #'     toc:             true
 #'     number_sections: false
@@ -53,17 +50,18 @@
 #'   - \usepackage{xunicode}
 #'   - \usepackage{xltxtra}
 #'   - \usepackage{placeins}
-#' # - \geometry{
-#' #    a4paper,
-#' #    left     = 20mm,
-#' #    right    = 20mm,
-#' #    top      = 25mm,
-#' #    bottom   = 25mm,
-#' #    headsep  = 3\baselineskip,
-#' #    footskip = 4\baselineskip
-#' #  }
 #'   - \setmainfont[Scale=1.2]{Linux Libertine O}
 #' ---
+
+# - \geometry{
+#    a4paper,
+#    left     = 20mm,
+#    right    = 20mm,
+#    top      = 25mm,
+#    bottom   = 25mm,
+#    headsep  = 3\baselineskip,
+#    footskip = 4\baselineskip
+#  }
 
 #+ echo=F, include=F, warning=F, message=F
 rm(list = (ls()[ls() != ""]))
@@ -968,7 +966,7 @@ for (cp in unique(gather$rn)) {
   if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
 
   cat("\\FloatBarrier", "\n")
-  cat("\n#### Departures % from", cp, "\n\n")
+  cat("\n#### Departures % for", cp, "\n\n")
 
   tmp[, Depart_pc := 100 * (Tnew - ActTime) / ActTime]
 
