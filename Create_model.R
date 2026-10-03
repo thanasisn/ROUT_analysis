@@ -118,7 +118,7 @@ source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
 
 ## for the current year no validation
 ## for previous year export validation
-base_year <- 2024
+base_year <- 2025
 
 PLANS  <- FALSE
 PLANS  <- TRUE
@@ -126,7 +126,7 @@ PLANS  <- TRUE
 dtk_fl <- paste0("~/Documents/Running/ROUT results/ROUT_",        base_year, ".ods")
 mdl_fl <- paste0("~/Documents/Running/ROUT results/ROUT_models_", base_year, ".Rds")
 
-weather_old_hr <- 48
+weather_old_hr <- 24
 
 ## get locations
 CP <- data.table(read_ods(cp_fl))
@@ -619,11 +619,10 @@ if (PLANS) {
 
     ## for export
     pp <- tmp[, .(  rn,   km,     Tnew_hhmm,       Tpartial,   Pace,   Speed,   AvgPace,   AvgSpeed,  Date,         Sun_Elevation,         Moon_Elevation, Moon_Phase_percent)]
-    names(pp) <- c("CP", "km", "Total time", "Partial time", "Pace", "Speed", "AvgPace", "AvgSpeed", "Date", "Sun elevation angle", "Moon elevation angle", "Moon Phase %")
+    names(pp) <- c("CP", "km", "Total time", "Split time", "Pace", "Speed", "AvgPace", "AvgSpeed", "Date", "Sun elevation angle", "Moon elevation angle", "Moon Phase %")
 
     pp$Date <- lubridate::round_date(pp$Date, unit = "min")
     pp$Date <- strftime(pp$Date, "%F %H:%M")
-
 
 
     # ------------------------------------------------------------
@@ -695,9 +694,10 @@ if (PLANS) {
         `Moon elevation angle` = round(`Moon elevation angle`, 1),
       ) |>
       rename(
-        "Avg Pace"       = AvgPace,
+        "Avg Pace" = AvgPace,
         "Avg Speed km/h" = AvgSpeed,
-        "Speed km/h"     = Speed
+        "Speed km/h"     = Speed.
+        "Split pace"     = Pace,
       )
 
 
@@ -757,18 +757,16 @@ if (PLANS) {
     setorder(pp, km)
 
 
-
-
     # ## create a table as an image
-    ttl  <- paste0("ROUT finishing target -- ", HH, " -- hours (class ", tmp[, unique(Class)],")")
-    sttl <- paste0("Weather data: ", weatherdate,
-                       "  |  Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M"))
-
+    ttl  <- paste0("ROUT finishing target of -- ", HH, " -- hours (class ", tmp[, unique(Class)],")")
+    sttl <- paste0("Weather data date: ", weatherdate,
+                   "  |  Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M"),
+                   "  |  By: Athanasios Natsis, natsisa@auth.gr")
 
 
     png(paste0(EST_TBLS_dr, "/B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
-        height = 25 * nrow(pp),
-        width  = 81 * ncol(pp))
+        height = 26 * nrow(pp),
+        width  = 84 * ncol(pp))
 
     # Create a copy of pp for display with visual indicators
     pp_display <- pp
