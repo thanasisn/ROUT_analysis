@@ -118,7 +118,7 @@ source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
 
 ## for the current year no validation
 ## for previous year export validation
-base_year <- 2024
+base_year <- 2025
 
 PLANS  <- FALSE
 PLANS  <- TRUE
@@ -757,16 +757,18 @@ if (PLANS) {
     setorder(pp, km)
 
 
+
     # ## create a table as an image
     ttl  <- paste0("ROUT finishing target of -- ", HH, " -- hours (class ", tmp[, unique(Class)],")")
-    sttl <- paste0("Weather data date: ", weatherdate,
-                   "  |  Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M"),
-                   "  |  By: Athanasios Natsis, natsisa@auth.gr")
-
+    sttl <- paste0("Weather data date: ", format(as.POSIXct(weatherdate), "%Y-%m-%d %H:%M", tz = "Europe/Athens"),
+                   "  |  Generated: ", format(Sys.time(), "%Y-%m-%d %H:%M", tz = "Europe/Athens"),
+                   "  |  Based on ", base_year, " ROUT results",
+                   "  |  By: Athanasios Natsis, natsisa@auth.gr"
+                   )
 
     png(paste0(EST_TBLS_dr, "/B_", base_year, "_C_", tmp[, unique(Class)], "_H_", HH, ".png"),
         height = 26 * nrow(pp),
-        width  = 86 * ncol(pp))
+        width  = 85 * ncol(pp))
 
     # Create a copy of pp for display with visual indicators
     pp_display <- pp
@@ -783,7 +785,6 @@ if (PLANS) {
     pp_display$`Moon elevation angle` <- ifelse(pp$`Moon elevation angle` > 0,
                                                 paste0("🌒 ", pp$`Moon elevation angle`),
                                                 paste0("🌑 ", pp$`Moon elevation angle`))
-
 
     # Add moon phase symbols to Moon elevation angle based on Moon Phase %
     pp_display$`Moon elevation angle` <- ifelse(pp$`Moon elevation angle` > 0,
@@ -811,7 +812,6 @@ if (PLANS) {
                               gp = gpar(fontsize = 20, fontface = "bold"))
     subtitle_grob <- textGrob(sttl,
                               gp = gpar(fontsize = 13, fontface = "italic", col = "grey30"))
-
 
 
     padding <- unit(6, "mm")
@@ -854,262 +854,262 @@ if (file.exists(res_fl)) {
 }
 
 
-#' \FloatBarrier
-#'
-#' # Evaluate models against `r base_year + 1` results.
-#'
-#' For all finishers estimate pass times from each CP, using the appropriate
-#' class model. Prediction are based on individual finishing time.
-#'
-#+ echo=F, include=VALIDATE, fig.width=6, fig.height=6, results="asis", warning=F
-
-if (VALIDATE) {
-
-  gather <- data.table()
-  for (al in 1:nrow(RS)) {
-    ll  <- RS[al]
-    MM  <- ll$`K-181Χαϊντού`
-    HH  <- MM / 60
-    tmp <- models[ MM < upper & MM > lower]
-    if (nrow(tmp) == 0) next
-
-    # cat("\\newpage", "\n\n")
-    # cat("### Hours", HH, "model class", tmp[, unique(Class)], "\n\n")
-
-    setorder(tmp, Ttime)
-
-    ## compute change from previous
-    change <- 1 - last(tmp$Ttime) / MM
-
-    ## compute scaled times
-    tmp$Tnew <- tmp$Ttime * (1 + change)
-
-    tmp$Tnew_hhmm <- minutes_to_hhmm(tmp$Tnew)
-    tmp$Tpartial  <- minutes_to_hhmm(c(0, diff(tmp$Tnew) ))
-    tmp           <- tmp[-1,]
-
-    # tmp$Date     <- START     + tmp$Tnew * 60
-    # tmp$Date_UTC <- START_UTC + tmp$Tnew * 60
-
-    pp <- ll |>
-      select(contains("K-")) |>
-      t()
-
-    tt <- data.table(
-      rn      = rownames(pp),
-      ActTime = pp[,1])
-
-    tmps <- merge(tmp, tt)
-    setorder(tmps, km)
-
-    gather <- rbind(
-      gather,
-      tmps[, .(rn, km, Tnew, ActTime, Name = ll$Αθλητής, Class)]
-    )
-  }
-
-  cat("We excluded finishing time from the statistical evaluation, as the modelled finishing time is equal.")
-
-  gather <- gather[rn != "K-181Χαϊντού"]
-}
-
-
-
-
-#'
-#' ## Summary of % difference for all CP
-#'
-#+ echo=F, include=VALIDATE, results="asis", warning=F
-cat("\n\\footnotesize", "\n")
-cat(pander(summary(gather[, 100 * (Tnew - ActTime) / ActTime])))
-cat("\n\\normalsize", "\n")
-
-gather <- merge(gather, CP, by = "rn")
-
-
-#'
-#' ## Distribution of % difference for all CP and classes
-#'
-#+ echo=F, include=VALIDATE, results="asis", warning=F
-pp <- data.frame(diff = gather[, 100 * (Tnew - ActTime) / ActTime])
-
-g_histall <- ggplot(pp, aes(x = diff)) +
-  geom_histogram(aes(y = after_stat(count / sum(count)) * 100),  # Convert to %
-                 bins = 20,
-                 fill = "lightblue",
-                 color = "black") +
-  labs(title = "Distribution of % difference for all CP",
-       x = "% Difference",
-       y = "Percentage (%)") +
-  theme_minimal() +
-  scale_y_continuous(labels = function(x) paste0(x, "%"))
-
-if (knitr::is_latex_output()) {
-  print(g_histall)
-} else if (interactive() | knitr::is_html_output()) {
-  ggplotly(g_histall)
-} else {
-  print(g_histall)
-}
-
-
-#'
-#' ## Departures by CP
-#'
-#' We calculated the departure in per cent of each athlete actual CP pass time from the estimated, based the class he belongs based on actual finishing time.
-#'
-#+ echo=F, include=VALIDATE, results="asis", warning=F
-for (cp in unique(gather$rn)) {
-  tmp <- gather[rn == cp]
-  if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
-
-  cat("\\FloatBarrier", "\n")
-  cat("\n#### Departures % for", cp, "\n\n")
-
-  tmp[, Depart_pc := 100 * (Tnew - ActTime) / ActTime]
-
-  pander(summary(tmp))
-
-
-  g_hist_cp <- ggplot(data = tmp, aes(x = Depart_pc)) +
-    geom_histogram(aes(y = after_stat(count / sum(count)) * 100),
-                   bins = 20,
-                   fill = "lightblue",
-                   color = "black") +
-    labs(title = paste("Distribution of % difference for", cp),
-         x = "% Difference",
-         y = "Percentage (%)") +
-    theme_minimal()
-
-  if (knitr::is_latex_output()) {
-    print(g_hist_cp)
-  } else if (interactive()) {
-    ggplotly(g_hist_cp)
-  } else if (knitr::is_html_output()) {
-    htmltools::tagList(ggplotly(g_hist_cp)) %>% print()
-  } else {
-    print(g_hist_cp)
-  }
-
-}
-
-#'
-#' ## Departures by class
-#'
-#' Per cent difference from the modelled time for all check point, fro each class.
-#'
-#+ echo=F, include=VALIDATE, results="asis", warning=F
-for (cl in unique(gather$Class)) {
-  tmp <- gather[Class == cl]
-  if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
-
-  cat("\\FloatBarrier", "\n")
-  cat("\n#### Departures % for class", cl, "\n\n")
-
-  tmp[, Depart_pc := 100 * (Tnew - ActTime) / ActTime]
-
-  pander(summary(tmp))
-
-  # hist(tmp[, 100 * (Tnew - ActTime) / ActTime],
-  #      breaks = 20,
-  #      freq = FALSE,
-  #      main = paste("Distribution of % difference for class", cl))
-
-
-  g_hist_cl <- ggplot(data = tmp, aes(x = Depart_pc)) +
-    geom_histogram(aes(y = after_stat(count / sum(count)) * 100),
-                   bins = 20,
-                   fill = "lightblue",
-                   color = "black") +
-    labs(title = paste("Distribution of % difference for class", cl),
-         x = "% Difference",
-         y = "Percentage (%)") +
-    theme_minimal()
-
-  if (knitr::is_latex_output()) {
-    print(g_hist_cl)
-  } else if (interactive()) {
-    ggplotly(g_hist_cl)
-  } else if (knitr::is_html_output()) {
-    htmltools::tagList(ggplotly(g_hist_cl)) %>% print()
-  } else {
-    print(g_hist_cl)
-  }
-
-}
-
-#'
-#' ## Departures by athlete
-#'
-#' We tested the actual passes of each athlete by prediction based on its finishing time. We computed the deviation
-#' of actual pass time from the predicted (Actual pass time minus predicted passes).
-#' So positive values indicate that the actual time is longer than expected, and thus the athlete slower than expected,
-#' from the prediction. The blue line is the cumulative time differences along all prediction. While the blue line move upwards the athlete is slower than expected as the positive time is explained by taking more time than the prediction.
-#'
-#+ echo=F, include=VALIDATE, results="asis", warning=F
-for (al in unique(gather$Name)) {
-  tmp <- gather[Name == al]
-  setorder(tmp, km)
-  if (nrow(tmp) <= 4) next()
-
-  cat("\\newpage", "\n\n")
-
-  cat(" \n \n")
-  cat("#### ", al, "\n \n")
-
-  tmp[, Resid := ActTime - Tnew]
-
-  tmp <- tmp[!is.na(Resid)]
-
-  tmp[, Cusum := cumsum(Resid)]
-
-
-
-  cat(" \n \n")
-
-  # hist(tmp[, 100 * (Tnew - ActTime) / ActTime], breaks = 20,
-  #    main = paste("Distribution of % difference for", al))
-
-  cat(" \n \n")
-  # plot(tmp[, ActTime - Tnew, km ],
-  #      xlab = "",
-  #      ylab = "Diff minutes",
-  #      xaxt = "n",
-  #      main = al)
-  # abline(h = 0, lty = 2, col = "red")
-  # axis(1, at = tmp$km, labels = tmp$rn, las = 2)
-  # cat(" \n \n")
-
-  # library(ggrepel)
-  g_athl <-
-    ggplot(data = tmp, aes(x = km, y = round(Resid, 1), text = cp_name)) +
-    geom_hline(yintercept = 0, color = "green", linetype = "dotted") +
-    geom_line(aes(y = Cusum, x = km, group = 1),
-              color = "blue",
-              linetype = "solid") +
-    geom_point() +
-    # geom_text_repel(aes(label = cp_name),
-    #                 size = 3,
-    #                 box.padding = 0.5,
-    #                 point.padding = 0.5) +
-    # geom_text(aes(label = cp_name), vjust = -0.5, hjust = -1, size = 3) +
-    labs(title = paste("CP time exceeding prediction for", al),
-         y = "Minutes above prediction",
-         x = "Distance") +
-    theme_minimal()
-
-
-  if (knitr::is_latex_output()) {
-    print(g_athl)
-  } else if (interactive()) {
-    ggplotly(g_athl)
-  } else if (knitr::is_html_output()) {
-    htmltools::tagList(ggplotly(g_athl)) %>% print()
-  } else {
-    print(g_athl)
-  }
-
-}
+# #' \FloatBarrier
+# #'
+# #' # Evaluate models against `r base_year + 1` results.
+# #'
+# #' For all finishers estimate pass times from each CP, using the appropriate
+# #' class model. Prediction are based on individual finishing time.
+# #'
+# #+ echo=F, include=VALIDATE, fig.width=6, fig.height=6, results="asis", warning=F
+#
+# if (VALIDATE) {
+#
+#   gather <- data.table()
+#   for (al in 1:nrow(RS)) {
+#     ll  <- RS[al]
+#     MM  <- ll$`K-181Χαϊντού`
+#     HH  <- MM / 60
+#     tmp <- models[ MM < upper & MM > lower]
+#     if (nrow(tmp) == 0) next
+#
+#     # cat("\\newpage", "\n\n")
+#     # cat("### Hours", HH, "model class", tmp[, unique(Class)], "\n\n")
+#
+#     setorder(tmp, Ttime)
+#
+#     ## compute change from previous
+#     change <- 1 - last(tmp$Ttime) / MM
+#
+#     ## compute scaled times
+#     tmp$Tnew <- tmp$Ttime * (1 + change)
+#
+#     tmp$Tnew_hhmm <- minutes_to_hhmm(tmp$Tnew)
+#     tmp$Tpartial  <- minutes_to_hhmm(c(0, diff(tmp$Tnew) ))
+#     tmp           <- tmp[-1,]
+#
+#     # tmp$Date     <- START     + tmp$Tnew * 60
+#     # tmp$Date_UTC <- START_UTC + tmp$Tnew * 60
+#
+#     pp <- ll |>
+#       select(contains("K-")) |>
+#       t()
+#
+#     tt <- data.table(
+#       rn      = rownames(pp),
+#       ActTime = pp[,1])
+#
+#     tmps <- merge(tmp, tt)
+#     setorder(tmps, km)
+#
+#     gather <- rbind(
+#       gather,
+#       tmps[, .(rn, km, Tnew, ActTime, Name = ll$Αθλητής, Class)]
+#     )
+#   }
+#
+#   cat("We excluded finishing time from the statistical evaluation, as the modelled finishing time is equal.")
+#
+#   gather <- gather[rn != "K-181Χαϊντού"]
+# }
+#
+#
+#
+#
+# #'
+# #' ## Summary of % difference for all CP
+# #'
+# #+ echo=F, include=VALIDATE, results="asis", warning=F
+# cat("\n\\footnotesize", "\n")
+# cat(pander(summary(gather[, 100 * (Tnew - ActTime) / ActTime])))
+# cat("\n\\normalsize", "\n")
+#
+# gather <- merge(gather, CP, by = "rn")
+#
+#
+# #'
+# #' ## Distribution of % difference for all CP and classes
+# #'
+# #+ echo=F, include=VALIDATE, results="asis", warning=F
+# pp <- data.frame(diff = gather[, 100 * (Tnew - ActTime) / ActTime])
+#
+# g_histall <- ggplot(pp, aes(x = diff)) +
+#   geom_histogram(aes(y = after_stat(count / sum(count)) * 100),  # Convert to %
+#                  bins = 20,
+#                  fill = "lightblue",
+#                  color = "black") +
+#   labs(title = "Distribution of % difference for all CP",
+#        x = "% Difference",
+#        y = "Percentage (%)") +
+#   theme_minimal() +
+#   scale_y_continuous(labels = function(x) paste0(x, "%"))
+#
+# if (knitr::is_latex_output()) {
+#   print(g_histall)
+# } else if (interactive() | knitr::is_html_output()) {
+#   ggplotly(g_histall)
+# } else {
+#   print(g_histall)
+# }
+#
+#
+# #'
+# #' ## Departures by CP
+# #'
+# #' We calculated the departure in per cent of each athlete actual CP pass time from the estimated, based the class he belongs based on actual finishing time.
+# #'
+# #+ echo=F, include=VALIDATE, results="asis", warning=F
+# for (cp in unique(gather$rn)) {
+#   tmp <- gather[rn == cp]
+#   if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
+#
+#   cat("\\FloatBarrier", "\n")
+#   cat("\n#### Departures % for", cp, "\n\n")
+#
+#   tmp[, Depart_pc := 100 * (Tnew - ActTime) / ActTime]
+#
+#   pander(summary(tmp))
+#
+#
+#   g_hist_cp <- ggplot(data = tmp, aes(x = Depart_pc)) +
+#     geom_histogram(aes(y = after_stat(count / sum(count)) * 100),
+#                    bins = 20,
+#                    fill = "lightblue",
+#                    color = "black") +
+#     labs(title = paste("Distribution of % difference for", cp),
+#          x = "% Difference",
+#          y = "Percentage (%)") +
+#     theme_minimal()
+#
+#   if (knitr::is_latex_output()) {
+#     print(g_hist_cp)
+#   } else if (interactive()) {
+#     ggplotly(g_hist_cp)
+#   } else if (knitr::is_html_output()) {
+#     htmltools::tagList(ggplotly(g_hist_cp)) %>% print()
+#   } else {
+#     print(g_hist_cp)
+#   }
+#
+# }
+#
+# #'
+# #' ## Departures by class
+# #'
+# #' Per cent difference from the modelled time for all check point, fro each class.
+# #'
+# #+ echo=F, include=VALIDATE, results="asis", warning=F
+# for (cl in unique(gather$Class)) {
+#   tmp <- gather[Class == cl]
+#   if (nrow(tmp[!is.na(ActTime) & !is.na(Tnew)]) <= 4) next()
+#
+#   cat("\\FloatBarrier", "\n")
+#   cat("\n#### Departures % for class", cl, "\n\n")
+#
+#   tmp[, Depart_pc := 100 * (Tnew - ActTime) / ActTime]
+#
+#   pander(summary(tmp))
+#
+#   # hist(tmp[, 100 * (Tnew - ActTime) / ActTime],
+#   #      breaks = 20,
+#   #      freq = FALSE,
+#   #      main = paste("Distribution of % difference for class", cl))
+#
+#
+#   g_hist_cl <- ggplot(data = tmp, aes(x = Depart_pc)) +
+#     geom_histogram(aes(y = after_stat(count / sum(count)) * 100),
+#                    bins = 20,
+#                    fill = "lightblue",
+#                    color = "black") +
+#     labs(title = paste("Distribution of % difference for class", cl),
+#          x = "% Difference",
+#          y = "Percentage (%)") +
+#     theme_minimal()
+#
+#   if (knitr::is_latex_output()) {
+#     print(g_hist_cl)
+#   } else if (interactive()) {
+#     ggplotly(g_hist_cl)
+#   } else if (knitr::is_html_output()) {
+#     htmltools::tagList(ggplotly(g_hist_cl)) %>% print()
+#   } else {
+#     print(g_hist_cl)
+#   }
+#
+# }
+#
+# #'
+# #' ## Departures by athlete
+# #'
+# #' We tested the actual passes of each athlete by prediction based on its finishing time. We computed the deviation
+# #' of actual pass time from the predicted (Actual pass time minus predicted passes).
+# #' So positive values indicate that the actual time is longer than expected, and thus the athlete slower than expected,
+# #' from the prediction. The blue line is the cumulative time differences along all prediction. While the blue line move upwards the athlete is slower than expected as the positive time is explained by taking more time than the prediction.
+# #'
+# #+ echo=F, include=VALIDATE, results="asis", warning=F
+# for (al in unique(gather$Name)) {
+#   tmp <- gather[Name == al]
+#   setorder(tmp, km)
+#   if (nrow(tmp) <= 4) next()
+#
+#   cat("\\newpage", "\n\n")
+#
+#   cat(" \n \n")
+#   cat("#### ", al, "\n \n")
+#
+#   tmp[, Resid := ActTime - Tnew]
+#
+#   tmp <- tmp[!is.na(Resid)]
+#
+#   tmp[, Cusum := cumsum(Resid)]
+#
+#
+#
+#   cat(" \n \n")
+#
+#   # hist(tmp[, 100 * (Tnew - ActTime) / ActTime], breaks = 20,
+#   #    main = paste("Distribution of % difference for", al))
+#
+#   cat(" \n \n")
+#   # plot(tmp[, ActTime - Tnew, km ],
+#   #      xlab = "",
+#   #      ylab = "Diff minutes",
+#   #      xaxt = "n",
+#   #      main = al)
+#   # abline(h = 0, lty = 2, col = "red")
+#   # axis(1, at = tmp$km, labels = tmp$rn, las = 2)
+#   # cat(" \n \n")
+#
+#   # library(ggrepel)
+#   g_athl <-
+#     ggplot(data = tmp, aes(x = km, y = round(Resid, 1), text = cp_name)) +
+#     geom_hline(yintercept = 0, color = "green", linetype = "dotted") +
+#     geom_line(aes(y = Cusum, x = km, group = 1),
+#               color = "blue",
+#               linetype = "solid") +
+#     geom_point() +
+#     # geom_text_repel(aes(label = cp_name),
+#     #                 size = 3,
+#     #                 box.padding = 0.5,
+#     #                 point.padding = 0.5) +
+#     # geom_text(aes(label = cp_name), vjust = -0.5, hjust = -1, size = 3) +
+#     labs(title = paste("CP time exceeding prediction for", al),
+#          y = "Minutes above prediction",
+#          x = "Distance") +
+#     theme_minimal()
+#
+#
+#   if (knitr::is_latex_output()) {
+#     print(g_athl)
+#   } else if (interactive()) {
+#     ggplotly(g_athl)
+#   } else if (knitr::is_html_output()) {
+#     htmltools::tagList(ggplotly(g_athl)) %>% print()
+#   } else {
+#     print(g_athl)
+#   }
+#
+# }
 
 
 #+ include=F, echo=F, results="asis"
