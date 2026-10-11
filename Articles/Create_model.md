@@ -1,6 +1,6 @@
 ---
 title:  "A simple data driven prediction of check point passes for Rodopy Ultra Trail (ROUT), based on the finishing times of 2025 ROUT"
-date:   "2026-10-10"
+date:   "2026-10-11"
 author:
   - name:  Athanasios Natsis
     email: natsisa@auth.gr
@@ -12,7 +12,11 @@ address:
   - code: Another University
     address: Department, Street, City, State, Zip
 abstract: |
-    This is the abstract.
+    This document provides a statistical estimation of checkpoint passage times
+    based on a given total race time. These calculations are intended to help
+    runners plan their race strategy. Additionally, we include information about
+    sun and moon positions to assist with overall race planning and strategy,
+    and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
 
 output:
   bookdown::html_document2:
@@ -53,17 +57,6 @@ header-includes:
 ---
 
 
-``` r
-# - \geometry{
-#    a4paper,
-#    left     = 20mm,
-#    right    = 20mm,
-#    top      = 25mm,
-#    bottom   = 25mm,
-#    headsep  = 3\baselineskip,
-#    footskip = 4\baselineskip
-#  }
-```
 
 
 
@@ -75,13 +68,9 @@ header-includes:
 
 **Source code: [`github.com/thanasisn/ROUT_analysis`](https://github.com/thanasisn/ROUT_analysis)**
 
-# Abstract
 
-This document provides a statistical estimation of checkpoint passage times
-based on a given total race time. These calculations are intended to help
-runners plan their race strategy. Additionally, we include information about
-sun and moon positions to assist with overall race planning and strategy,
-and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
+
+
 
 
 
@@ -107,11 +96,11 @@ corresponding to its bin is used.
 
 \begin{figure}[h!]
 
-{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-7-1} 
+{\centering \includegraphics[width=0.9\linewidth]{/home/athan/MANUSCRIPTS/ROUT_analysis/Articles/Create_model_files/figure-latex/unnamed-chunk-8-1} 
 
 }
 
-\caption{Distribution of finishing time in minutes for the 5 classes}(\#fig:unnamed-chunk-7)
+\caption{Distribution of finishing time in minutes for the 5 classes}(\#fig:unnamed-chunk-8)
 \end{figure}
 
 \FloatBarrier

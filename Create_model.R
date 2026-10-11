@@ -13,7 +13,11 @@
 #'   - code: Another University
 #'     address: Department, Street, City, State, Zip
 #' abstract: |
-#'     This is the abstract.
+#'     This document provides a statistical estimation of checkpoint passage times
+#'     based on a given total race time. These calculations are intended to help
+#'     runners plan their race strategy. Additionally, we include information about
+#'     sun and moon positions to assist with overall race planning and strategy,
+#'     and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
 #'
 #' output:
 #'   bookdown::html_document2:
@@ -52,6 +56,7 @@
 #'   - \usepackage{placeins}
 #'   - \setmainfont[Scale=1.2]{Linux Libertine O}
 #' ---
+#+ echo=F, include=F, warning=F, message=F
 
 # - \geometry{
 #    a4paper,
@@ -254,13 +259,13 @@ DT <- DT |>  mutate(Gender = if_else(grepl("M", Κατ.), "Male", "Female"))
 #'
 #' **Source code: [`github.com/thanasisn/ROUT_analysis`](https://github.com/thanasisn/ROUT_analysis)**
 #'
-#' # Abstract
-#'
-#' This document provides a statistical estimation of checkpoint passage times
-#' based on a given total race time. These calculations are intended to help
-#' runners plan their race strategy. Additionally, we include information about
-#' sun and moon positions to assist with overall race planning and strategy,
-#' and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
+##;; #' # Abstract
+##;; #'
+##;; #' This document provides a statistical estimation of checkpoint passage times
+##;; #' based on a given total race time. These calculations are intended to help
+##;; #' runners plan their race strategy. Additionally, we include information about
+##;; #' sun and moon positions to assist with overall race planning and strategy,
+##;; #' and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
 #'
 #+ echo=F, include=T, results="asis", warning=F
 
