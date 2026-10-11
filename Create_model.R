@@ -578,6 +578,7 @@ models <- merge(models, CP, by.x = "rn", by.y = "rn" )
 if (PLANS) {
 
   hours <- (min(models$lower) %/% 60):(max(models$upper) %/% 60)
+  stop()
 
   for (HH in hours) {
     MM  <- HH * 60

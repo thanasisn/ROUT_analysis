@@ -81,9 +81,9 @@ py_require("astropy")
 py_require("ephem")
 
 ## Load my previous times
-DT <- data.table(read_ods("~/GISdata/GPX/Plans/ROUT/ROUT_2024/Results.ods"))
-CP <- data.table(read_ods("~/CODE/R_MISC/ROUT/CP_cords.ods"))
-
+# DT <- data.table(read_ods("~/GISdata/GPX/Plans/ROUT/ROUT_2024/Results.ods"))
+DT <- data.table(read_ods("~/GISdata/GPX/Plans/ROUT/ROUT_2025/Results.ods"))
+CP <- data.table(read_ods("~/MANUSCRIPTS/ROUT_analysis/side_data/CP_cords.ods"))
 
 DT <- merge(DT, CP, by.x = "Σημείο Ελέγχου", by.y = "cp_name")
 
@@ -94,7 +94,7 @@ alt <- 900
 
 
 ## Set target time
-target <- 43 * 60
+target <- 40 * 60
 
 ## prepare data
 DT$Συνολο_minutes <- as.numeric(DT$Συνολο) * 60
