@@ -2,16 +2,7 @@
 #' ---
 #' title:  "A simple data driven prediction of check point passes for Rodopy Ultra Trail (ROUT), based on the finishing times of 2025 ROUT"
 #' date:   "`r strftime(Sys.time(), '%F', tz= 'Europe/Athens')`"
-#' author:
-#'   - name:  Athanasios Natsis
-#'     email: natsisa@auth.gr
-#'     affiliation: AUTH
-#'     footnote: Corresponding Author
-#' address:
-#'   - code: AUTH
-#'     address: Department, Street, City, State, Zip
-#'   - code: Another University
-#'     address: Department, Street, City, State, Zip
+#' author: Athanasios Natsis
 #' abstract: |
 #'     This document provides a statistical estimation of checkpoint passage times
 #'     based on a given total race time. These calculations are intended to help
@@ -67,6 +58,17 @@
 #    headsep  = 3\baselineskip,
 #    footskip = 4\baselineskip
 #  }
+
+#   - name:  Athanasios Natsis
+#     email: natsisa@auth.gr
+#     affiliation: AUTH
+#     footnote: Corresponding Author
+# address:
+#   - code: AUTH
+#     address: Department, Street, City, State, Zip
+#   - code: Another University
+#     address: Department, Street, City, State, Zip
+
 
 #+ echo=F, include=F, warning=F, message=F
 rm(list = (ls()[ls() != ""]))
@@ -279,7 +281,10 @@ bbrakes <- 5
 #'
 #' All performance data were obtained directly from the race website
 #' (www.rout.gr).  The location of each checkpoint along the race route was
-#' derived from the race GPX track and associated maps.
+#' derived from the race GPX track and associated maps. The astronomical data
+#' were computed with `astropy` and `ephem` Python modules, and the
+#' meteorological data were obtained through `open-meteo.com` API for each
+#' check point, at the time of this document creation.
 #'
 #'
 #' # Classes of performance models from the `r base_year` race results
