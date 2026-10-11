@@ -94,7 +94,7 @@ alt <- 900
 
 
 ## Set target time
-target <- 40 * 60
+target <- 43 * 60
 
 ## prepare data
 DT$Συνολο_minutes <- as.numeric(DT$Συνολο) * 60

@@ -133,7 +133,7 @@ PLANS  <- TRUE
 dtk_fl <- paste0("~/Documents/Running/ROUT results/ROUT_",        base_year, ".ods")
 mdl_fl <- paste0("~/Documents/Running/ROUT results/ROUT_models_", base_year, ".Rds")
 
-weather_old_hr <- 12
+weather_old_hr <- 24
 
 ## get locations
 CP <- data.table(read_ods(cp_fl))
@@ -578,12 +578,16 @@ models <- merge(models, CP, by.x = "rn", by.y = "rn" )
 if (PLANS) {
 
   hours <- (min(models$lower) %/% 60):(max(models$upper) %/% 60)
-  stop()
 
   for (HH in hours) {
     MM  <- HH * 60
     tmp <- models[ MM < upper & MM > lower]
-    if (nrow(tmp) == 0) next
+    if (nrow(tmp) == 0) {
+      next
+      stop("Fix me")
+      tmp1 <- models[MM + 61 < upper & MM + 61 > lower]
+      tmp2 <- models[MM - 62 < upper & MM - 62 > lower]
+    }
 
     cat("\\newpage", "\n\n")
     cat(paste0("### Prediction for ", HH, " hours (class", tmp[, unique(Class)], ")\n\n"))
