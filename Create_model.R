@@ -226,6 +226,7 @@ if (file.exists(cp_wth_fl) && difftime(Sys.time(), file.mtime(cp_wth_fl), units 
     tmp <- cbind(hourly, CP[i], parsed = Sys.time())
 
     weather_gather <- rbind(weather_gather, tmp)
+    saveRDS(weather_gather, cp_wth_fl)
     Sys.sleep(20)
   }
   saveRDS(weather_gather, cp_wth_fl)
@@ -247,8 +248,8 @@ weather_gather <- weather_gather |>
   )
   )
 
-weather_gather |> select(Variable) |> distinct()
-weather_gather |> select(Model) |> distinct()
+# weather_gather |> select(Variable) |> distinct()
+# weather_gather |> select(Model) |> distinct()
 
 
 
@@ -633,8 +634,9 @@ if (PLANS) {
     }, Date_UTC, lat, lon, alt)]
 
     ## for export
-    pp <- tmp[, .(  rn,   km,     Tnew_hhmm,       Tpartial,   Pace,   Speed,   AvgPace,   AvgSpeed,  Date,         Sun_Elevation,         Moon_Elevation, Moon_Phase_percent)]
-    names(pp) <- c("CP", "km", "Total time", "Split time", "Pace", "Speed", "AvgPace", "AvgSpeed", "Date", "Sun elevation angle", "Moon elevation angle", "Moon Phase %")
+    pp <- tmp[, .(  rn,   km,     Tnew_hhmm,     Tpartial,   Pace,   Speed,   AvgPace,   AvgSpeed,  Date,         Sun_Elevation,          Moon_Elevation, Moon_Phase_percent, cp_name)]
+    names(pp) <- c("CP", "km", "Total time", "Split time", "Pace", "Speed", "AvgPace", "AvgSpeed", "Date", "Sun elevation angle", "Moon elevation angle", "Moon Phase %",    "CP name")
+
 
     pp$Date <- lubridate::round_date(pp$Date, unit = "min")
     pp$Date <- strftime(pp$Date, "%F %H:%M")
@@ -728,10 +730,10 @@ if (PLANS) {
 
     ##  Export for documents  --------------------------------------------------
     cat("\n\\footnotesize", "\n")
-    cat(pander(pp, split.table = Inf))
+    cat(pander(
+      pp |> select(km, "CP name", everything(), -CP),
+      split.table = Inf))
     cat("\n\\normalsize", "\n")
-
-
 
     pp <- pp_weather
 
@@ -771,7 +773,7 @@ if (PLANS) {
 
     setorder(pp, km)
 
-
+    pp <- pp |> select(km, "CP name", everything(), -CP)
 
     # ## create a table as an image
     ttl  <- paste0("ROUT finishing target of -- ", HH, " -- hours (class ", tmp[, unique(Class)],")")
