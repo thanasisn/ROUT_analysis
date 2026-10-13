@@ -1,6 +1,6 @@
 ---
 title:  "A simple data driven prediction of check point passes for Rodopy Ultra Trail (ROUT), based on the finishing times of 2025 ROUT"
-date:   "2026-10-12"
+date:   "2026-10-13"
 author: Athanasios Natsis
 abstract: |
     This document provides a statistical estimation of checkpoint passage times
