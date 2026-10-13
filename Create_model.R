@@ -255,8 +255,14 @@ weather_gather <- weather_gather |>
   )
   )
 
-# weather_gather |> select(Variable) |> distinct()
-# weather_gather |> select(Model) |> distinct()
+## Duplicate weather series for K-0CP-0 from K-181Χαϊντού
+## Same location, but the interpolation loop keys on rn
+if (!"K-0CP-0" %in% unique(weather_gather$rn) &&
+    "K-181Χαϊντού" %in% unique(weather_gather$rn)) {
+  wg_k0 <- weather_gather[rn == "K-181Χαϊντού"]
+  wg_k0[, rn := "K-0CP-0"]
+  weather_gather <- rbind(weather_gather, wg_k0)
+}
 
 
 
@@ -468,9 +474,6 @@ CP[, km := NULL]
 #' \@ref(fig:models-speed-km) based on covered distance.
 #'
 #+ tab-model-details, echo=F, results='asis'
-
-# TODO add sdt
-
 models |>
   select(-Dx, -Dt) |>
   mutate(
