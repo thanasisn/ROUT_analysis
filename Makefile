@@ -6,8 +6,8 @@ SHELL = /bin/bash
 
 all:       pdf html
 render:    pdf html
-pdf:       p1 p2
-html:      h1 h2 
+pdf:       p1 
+html:      h1
 
 
 OUTDIR := ~/MANUSCRIPTS/ROUT_analysis/Articles
