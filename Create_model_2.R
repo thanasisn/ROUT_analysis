@@ -73,13 +73,12 @@ knitr::opts_chunk$set(tidy      = TRUE,
 ## __  Set environment ---------------------------------------------------------
 suppressMessages({
   library(data.table, quietly = TRUE, warn.conflicts = FALSE)
-  library(janitor,    quietly = TRUE, warn.conflicts = FALSE)
   library(ggplot2,    quietly = TRUE, warn.conflicts = FALSE)
+  library(htmltools,  quietly = TRUE, warn.conflicts = FALSE)
+  library(janitor,    quietly = TRUE, warn.conflicts = FALSE)
+  library(lubridate,  quietly = TRUE, warn.conflicts = FALSE)
   library(pander,     quietly = TRUE, warn.conflicts = FALSE)
   require(dplyr,      quietly = TRUE, warn.conflicts = FALSE)
-  require(readODS,    quietly = TRUE, warn.conflicts = FALSE)
-  require(plotly,     quietly = TRUE, warn.conflicts = FALSE)
-  require(reticulate, quietly = TRUE, warn.conflicts = FALSE)
   require(grid,       quietly = TRUE, warn.conflicts = FALSE)
   require(gridExtra,  quietly = TRUE, warn.conflicts = FALSE)
   require(gtable,     quietly = TRUE, warn.conflicts = FALSE)
@@ -91,12 +90,16 @@ suppressMessages({
   require(tidyr,      quietly = TRUE, warn.conflicts = FALSE)
 })
 
+#+ include=FALSE, echo=FALSE
+## init use of ggplot and html tables in loops
+# tagList(datatable(cars))
+tagList(ggplotly(ggplot()))
+
 source("~/MANUSCRIPTS/ROUT_analysis/DEFINITIONS.R")
 
-## load muliptle years
+## load multiple years
 
 base_years <- 2023:2025
-base_years <- 2023:2024
 test_year  <- 2025
 
 ## get finishers multiple years
@@ -118,6 +121,13 @@ PLANS  <- TRUE
 ## get locations
 CP <- data.table(read_ods(cp_fl))
 
+CP <- rbind(
+  CP,
+  CP |>
+    filter(km == max(km)) |>
+    mutate(km = 0, rn = "K-0CP-0")
+)
+
 ## get finishers
 DT <- DT[!is.na(`K-181Χαϊντού`)]
 
@@ -133,11 +143,10 @@ DT[, `ΔΧ %`    := NULL]
 DT[, συνμωτ    := NULL]
 DT[, `K-0CP-0` := 0]
 
-
-warning("\n\n\n ~~~~~ DEBUG IS ACTIVE!!!! ~~~~~\n\n\n")
-## Race start time
-START       <- as.POSIXct(Sys.time() + 3 * 24 * 3600)
-START_UTC   <- as.POSIXct(START, tz = "UTC")
+# warning("\n\n\n ~~~~~ DEBUG IS ACTIVE!!!! ~~~~~\n\n\n")
+# ## Race start time
+# START       <- as.POSIXct(Sys.time() + 3 * 24 * 3600)
+# START_UTC   <- as.POSIXct(START, tz = "UTC")
 
 
 
@@ -205,6 +214,7 @@ if (file.exists(cp_wth_fl) && difftime(Sys.time(), file.mtime(cp_wth_fl), units 
     tmp <- cbind(hourly, CP[i], parsed = Sys.time())
 
     weather_gather <- rbind(weather_gather, tmp)
+    saveRDS(weather_gather, cp_wth_fl)
     Sys.sleep(20)
   }
   saveRDS(weather_gather, cp_wth_fl)
@@ -226,24 +236,33 @@ weather_gather <- weather_gather |>
   )
   )
 
-weather_gather |> select(Variable) |> distinct()
-weather_gather |> select(Model) |> distinct()
+## Duplicate weather series for K-0CP-0 from K-181Χαϊντού
+## Same location, but the interpolation loop keys on rn
+if (!"K-0CP-0" %in% unique(weather_gather$rn) &&
+    "K-181Χαϊντού" %in% unique(weather_gather$rn)) {
+  wg_k0 <- weather_gather[rn == "K-181Χαϊντού"]
+  wg_k0[, rn := "K-0CP-0"]
+  weather_gather <- rbind(weather_gather, wg_k0)
+}
 
 
 
 ## set gender
-DT <- DT |>  mutate(Gender = if_else(grepl("M",Κατ.), "Male", "Female"))
+DT <- DT |>  mutate(Gender = if_else(grepl("M", Κατ.), "Male", "Female"))
 
 #' \FloatBarrier
 #'
-#' **Source code: [`github.com/thanasisn/IStillBreakStuff/blob/main/R_MISC/ROUT/Create_model.R`](https://github.com/thanasisn/IStillBreakStuff/blob/main/R_MISC/ROUT/Create_model.R)**
+#' **THIS IS A WORK IN PROGRESS**
 #'
-#' # Abstract
+#' **Source code: [`github.com/thanasisn/ROUT_analysis`](https://github.com/thanasisn/ROUT_analysis)**
 #'
-#' This document provides a statistical estimation of checkpoint passage times
-#' based on a given total race time. These calculations are intended to help
-#' runners plan their race strategy. Additionally, we include information about
-#' sun and moon positions to assist with overall race planning and strategy.
+##;; #' # Abstract
+##;; #'
+##;; #' This document provides a statistical estimation of checkpoint passage times
+##;; #' based on a given total race time. These calculations are intended to help
+##;; #' runners plan their race strategy. Additionally, we include information about
+##;; #' sun and moon positions to assist with overall race planning and strategy,
+##;; #' and weather data obtained from [`open-meteo.com`](https://open-meteo.com/).
 #'
 #+ echo=F, include=T, results="asis", warning=F
 
@@ -257,10 +276,13 @@ bbrakes <- 5
 #'
 #' All performance data were obtained directly from the race website
 #' (www.rout.gr).  The location of each checkpoint along the race route was
-#' derived from the race GPX track and associated maps.
+#' derived from the race GPX track and associated maps. The astronomical data
+#' were computed with `astropy` and `ephem` Python modules, and the
+#' meteorological data were obtained through `open-meteo.com` API for each
+#' check point, at the time of this document creation.
 #'
 #'
-#' # Classes of models from the `r paste(unique(DT$year), collapse = ", ")` rases results
+#' # Classes of models from the `r paste(unique(DT$year), collapse = ", ")` races results
 #'
 #' Based on the distribution of total finishing times, we assume there are
 #' `r bbrakes` distinct classes of athletes. To construct a corresponding number
@@ -336,7 +358,9 @@ for (id in unique(DT$binid)) {
   TT <- data.table(TT, keep.rownames = T)
   TT <- rename(.data = TT, Ttime = V1)
 
-  TT$km <- as.numeric(stringr::str_match(TT$rn, "K-(\\d+).*")[,2])
+  ## get distance from CP name
+  TT$km    <- as.numeric(str_match(TT$rn, "K-(\\d+).*")[,2])
+
   setorder(TT, km)
 
   TT$lower <- unique(tmp$lower)

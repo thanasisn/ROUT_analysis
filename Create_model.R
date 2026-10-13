@@ -99,9 +99,9 @@ knitr::opts_chunk$set(tidy      = TRUE,
 suppressMessages({
   library(data.table, quietly = TRUE, warn.conflicts = FALSE)
   library(ggplot2,    quietly = TRUE, warn.conflicts = FALSE)
+  library(htmltools,  quietly = TRUE, warn.conflicts = FALSE)
   library(janitor,    quietly = TRUE, warn.conflicts = FALSE)
   library(lubridate,  quietly = TRUE, warn.conflicts = FALSE)
-  library(htmltools,  quietly = TRUE, warn.conflicts = FALSE)
   library(pander,     quietly = TRUE, warn.conflicts = FALSE)
   require(dplyr,      quietly = TRUE, warn.conflicts = FALSE)
   require(grid,       quietly = TRUE, warn.conflicts = FALSE)
@@ -161,7 +161,6 @@ DT[, `ΔΧ %`    := NULL]
 DT[, συνμωτ    := NULL]
 DT[, `K-0CP-0` := 0]
 
-#
 # warning("\n\n\n ~~~~~ DEBUG IS ACTIVE!!!! ~~~~~\n\n\n")
 # ## Race start time
 # START       <- as.POSIXct(Sys.time() + 1 * 24 * 3600)
