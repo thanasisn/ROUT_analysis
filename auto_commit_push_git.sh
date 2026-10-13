@@ -79,6 +79,7 @@ for i in "${folders[@]}"; do
 			-o -iname '*.r'        \
 			-o -iname '*.rmd'      \
 			-o -iname '*.png'      \
+			-o -iname '*.png'      \
 			-o -iname '*.sh'       \
 			-o -iname '*.tex'      \
 			-o -iname '*.txt'      \
