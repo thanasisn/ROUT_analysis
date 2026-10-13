@@ -35,26 +35,26 @@ $(HTML): $(RMD)
 
 
 
-##  Build multi years prediction  ------------------------------------
-TARGET2 := Create_model_2
-RMD2    := $(TARGET2).R
-PDF2    := $(TARGET2).pdf
-HTML2   := $(TARGET2).html
-
-p2: $(PDF2) Makefile
-$(PDF2): $(RMD2)
-	@mkdir -p $(OUTDIR)
-	@echo "Building: $@"
-	@Rscript -e "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::pdf_document2', output_file='$@', output_dir='$(OUTDIR)')"
-
-
-h2: $(HTML2) Makefile
-$(HTML2): $(RMD2)
-	@mkdir -p $(OUTDIR)
-	@echo "Building: $@"
-	@echo "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::html_document2', output_file='$@', output_dir='$(OUTDIR)')"
-	@Rscript -e "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::html_document2', output_file='$@', output_dir='$(OUTDIR)')"
-
+# ##  Build multi years prediction  ------------------------------------
+# TARGET2 := Create_model_2
+# RMD2    := $(TARGET2).R
+# PDF2    := $(TARGET2).pdf
+# HTML2   := $(TARGET2).html
+# 
+# p2: $(PDF2) Makefile
+# $(PDF2): $(RMD2)
+# 	@mkdir -p $(OUTDIR)
+# 	@echo "Building: $@"
+# 	@Rscript -e "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::pdf_document2', output_file='$@', output_dir='$(OUTDIR)')"
+# 
+# 
+# h2: $(HTML2) Makefile
+# $(HTML2): $(RMD2)
+# 	@mkdir -p $(OUTDIR)
+# 	@echo "Building: $@"
+# 	@echo "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::html_document2', output_file='$@', output_dir='$(OUTDIR)')"
+# 	@Rscript -e "rmarkdown::find_pandoc(dir = '/usr/lib/rstudio/resources/app/bin/quarto/bin/tools'); rmarkdown::render('$?', output_format='bookdown::html_document2', output_file='$@', output_dir='$(OUTDIR)')"
+# 
 
 
 
