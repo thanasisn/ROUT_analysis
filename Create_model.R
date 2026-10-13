@@ -133,10 +133,17 @@ PLANS  <- TRUE
 dtk_fl <- paste0("~/Documents/Running/ROUT results/ROUT_",        base_year, ".ods")
 mdl_fl <- paste0("~/Documents/Running/ROUT results/ROUT_models_", base_year, ".Rds")
 
-weather_old_hr <- 8
+weather_old_hr <- 6
 
 ## get locations
 CP <- data.table(read_ods(cp_fl))
+
+CP <- rbind(
+  CP,
+  CP |>
+    filter(km == max(km)) |>
+    mutate(km = 0, rn = "K-0CP-0")
+)
 
 ## get finishers
 DT <- data.table(read_ods(dtk_fl))
@@ -428,7 +435,7 @@ for (id in unique(DT$binid)) {
       t() |>
       as.data.table(keep.rownames = TRUE)
 
-    TT_row <- rename(.data = TT_row, Ttime = V1)
+    TT_row    <- rename(.data = TT_row, Ttime = V1)
     TT_row$km <- as.numeric(stringr::str_match(TT_row$rn, "K-(\\d+).*")[,2])
     setorder(TT_row, km)
 
@@ -595,7 +602,6 @@ if (PLANS) {
 
     setorder(tmp, Ttime)
 
-    last(tmp$Ttime)
 
     ## compute change from previous
     change <- 1 - last(tmp$Ttime) / MM
@@ -605,7 +611,8 @@ if (PLANS) {
 
     tmp$Tnew_hhmm <- minutes_to_hhmm(tmp$Tnew)
     tmp$Tpartial  <- minutes_to_hhmm(c(0, diff(tmp$Tnew) ))
-    tmp           <- tmp[-1,]
+
+    # tmp           <- tmp[-1,]
 
     tmp$Date     <- START     + tmp$Tnew * 60
     tmp$Date_UTC <- START_UTC + tmp$Tnew * 60
@@ -716,7 +723,6 @@ if (PLANS) {
         "Speed km/h"     = Speed,
         "Split pace"     = Pace,
       )
-
 
     # ------------------------------------------------------------
     # 2.4  Merge back with pp (keeping all pp columns)
