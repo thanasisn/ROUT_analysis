@@ -133,7 +133,7 @@ PLANS  <- TRUE
 dtk_fl <- paste0("~/Documents/Running/ROUT results/ROUT_",        base_year, ".ods")
 mdl_fl <- paste0("~/Documents/Running/ROUT results/ROUT_models_", base_year, ".Rds")
 
-weather_old_hr <- 6
+weather_old_hr <- 3
 
 ## get locations
 CP <- data.table(read_ods(cp_fl))
