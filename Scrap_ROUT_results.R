@@ -5,9 +5,8 @@ library(chron)
 library(dplyr)
 library(readODS)
 
-years <- 2023:2025
-year  <- 2024
-year  <- 2025
+years <- 2023:2026
+year  <- 2026
 
 for (year in years) {
   if (year < 2023) { warning("This can not parse older data")}
